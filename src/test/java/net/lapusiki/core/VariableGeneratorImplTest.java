@@ -1,5 +1,7 @@
 package net.lapusiki.core;
 
+import net.lapusiki.core.impl.VariableGeneratorImpl;
+
 import static org.junit.Assert.*;
 
 /**

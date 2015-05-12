@@ -1,4 +1,6 @@
-package net.lapusiki.core;
+package net.lapusiki.core.impl;
+
+import net.lapusiki.core.VariableGenerator;
 
 /**
  */
