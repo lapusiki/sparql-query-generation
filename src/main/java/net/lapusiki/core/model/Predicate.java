@@ -5,19 +5,21 @@ import java.util.List;
 
 /**
  */
-public class PredicateWrapper {
+public class Predicate {
 
     private List<String> values = new ArrayList<>();
 
-    public PredicateWrapper(String value) {
-        values.add(value);
+    public Predicate(String... values) {
+        for (String value : values) {
+            this.values.add(value);
+        }
     }
 
-    public PredicateWrapper(List<String> values) {
+    public Predicate(List<String> values) {
         this.values = values;
     }
 
-    public PredicateWrapper() {
+    public Predicate() {
     }
 
     public List<String> getValues() {
@@ -33,7 +35,7 @@ public class PredicateWrapper {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PredicateWrapper that = (PredicateWrapper) o;
+        Predicate that = (Predicate) o;
 
         return !(values != null ? !values.equals(that.values) : that.values != null);
 
@@ -46,7 +48,7 @@ public class PredicateWrapper {
 
     @Override
     public String toString() {
-        return "PredicateWrapper{" +
+        return "Predicate{" +
                 "values=" + values +
                 '}';
     }

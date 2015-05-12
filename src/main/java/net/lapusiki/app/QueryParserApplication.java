@@ -5,6 +5,7 @@ import net.lapusiki.core.impl.MapPredicateService;
 import net.lapusiki.core.impl.MapQuestionService;
 import net.lapusiki.core.impl.QuestionParser;
 import net.lapusiki.core.impl.VariableGeneratorImpl;
+import net.lapusiki.core.model.Predicate;
 
 /**
  * Created by blvp on 12.05.15.
@@ -25,16 +26,16 @@ public class QueryParserApplication {
         if(length != 3) throw new UnsupportedOperationException("Пока не умеем распознавать такие запросы!");
 
         String question = parsedItems[0];
-        String predicate = predicateService.resolvePredicate(parsedItems[1]);
+        Predicate predicates = new Predicate(predicateService.resolvePredicate(parsedItems[1]));
         String entity = parsedItems[2];
         QuestionType questionType = questionService.resolveQuestion(question);
-        String variableName = variableGenerator.getVariable(predicate);
+        String variableName = variableGenerator.getVariable(predicates.getValues().get(0));
 
 
 
         String query = "SELECT "+questionService.getSelectOption(questionType, variableName) + "\n" +
                 "WHERE { \n ?person rdf:type foaf:Person . \n" +
-                " ?person "+ predicate + " " + variableName + " .\n" +
+                " ?person "+ predicates.getValues().get(0) + " " + variableName + " .\n" +
                 "FILTER (" +"str("+ variableName + ") = \"" + entity + "\")\n" +
                 "}";
         System.out.println(query);
