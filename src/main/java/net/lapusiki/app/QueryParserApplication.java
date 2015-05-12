@@ -33,9 +33,9 @@ public class QueryParserApplication {
 
 
         String query = "SELECT "+questionService.getSelectOption(questionType, variableName) + "\n" +
-                "WHERE { \n ?person rdf:type foaf:Person \n" +
-                " ?person "+ predicate + " " + variableName + "\n" +
-                "FILTER (" + variableName + " = \"" + entity + "\")\n" +
+                "WHERE { \n ?person rdf:type foaf:Person . \n" +
+                " ?person "+ predicate + " " + variableName + " .\n" +
+                "FILTER (" +"str("+ variableName + ") = \"" + entity + "\")\n" +
                 "}";
         System.out.println(query);
     }
