@@ -1,24 +1,18 @@
 package net.lapusiki.core.model;
 
+import net.lapusiki.core.QuestionType;
+
 /**
  */
 public class Question {
 
-    /**
-     * Variable - SELECT ?variable
-     * Count - SELECT count(?variable)
-     */
-    public enum Types {
-        VARIABLE, COUNT
-    }
+    private QuestionType type;
 
-    private Types type;
-
-    public Types getType() {
+    public QuestionType getType() {
         return type;
     }
 
-    public void setType(Types type) {
+    public void setType(QuestionType type) {
         this.type = type;
     }
 
