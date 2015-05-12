@@ -8,5 +8,33 @@
     <artifactId>sparql-query-builder</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
+    <properties>
+        <java-version>1.7</java-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>sparql-query-generator</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                    <compilerVersion>${java-version}</compilerVersion>
+                    <encoding>UTF-8</encoding>
+                    <debug/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
