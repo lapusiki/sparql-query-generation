@@ -9,7 +9,7 @@ public class VariableGeneratorImpl implements VariableGenerator {
     @Override
     public String getVariable(String raw) {
         String[] splitRaw = raw.split(":");
-        return String.format(OBJECT + splitRaw[1]);
+        return OBJECT + splitRaw[1];
     }
 
 }
