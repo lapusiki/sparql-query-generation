@@ -1,47 +1,41 @@
 package net.lapusiki.core.parser.impl;
 
 import net.lapusiki.core.impl.MapQuestionService;
+import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.QuestionService;
 import net.lapusiki.core.QuestionType;
-import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Question;
 
 /**
  * Created by blvp on 12.05.15.
+ *
+ * @author kiv1n
  */
 public class QuestionParser implements Parser {
 
-    public Holder<Question, String> parse(String sentence) throws Exception {
+    public Pair<Question, String> parse(String sentence) throws Exception {
 
-        Holder<Question, String> holder = new Holder<>();
-        String[] parsedQuestion = new PrepositionsParser().parse(sentence);
+        Pair<Question, String> pair = new Pair<>();
+        String[] parsedQuestion = new PrepositionsAndPunctuationParser().parse(sentence);
 
         QuestionService questionService = new MapQuestionService();
         QuestionType questionType = questionService.resolveQuestion(parsedQuestion[0]);
-        holder.setObject1(new Question(questionType));
+        pair.setObject1(new Question(questionType));
 
         // Если вопросы типа "кто?"
         if (questionType.equals(QuestionType.SIMPLE_QUESTION)) {
             // Собираем остаточную часть начиная со 2 элемента
-            String object2 = "";
+            StringBuilder object2 = new StringBuilder();
             for (int i = 1; i < parsedQuestion.length; i++) {
-                object2 += new StringBuilder().append(parsedQuestion[i]).append(" ");
+                object2.append(parsedQuestion[i]).append(" ");
             }
-            holder.setObject2(object2);
+            pair.setObject2(object2.toString());
+        } else {
+            throw new Exception("Пока не умею обрабатывать такие вопросные слова");
         }
 
-        // Если вопросы типа "сколько?"
-        else if (questionType.equals(QuestionType.CUSTOM_QUESTION)) {
-            // Собираем остаточную часть начиная с 3 элемента
-            String object2 = "";
-            for (int i = 2; i < parsedQuestion.length; i++) {
-                object2 += new StringBuilder().append(parsedQuestion[i]).append(" ");
-            }
-            holder.setObject2(object2);
-        }
-
-        return holder;
+        return pair;
 
     }
 }

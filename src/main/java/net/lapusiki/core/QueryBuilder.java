@@ -1,6 +1,6 @@
 package net.lapusiki.core;
 
-import net.lapusiki.core.impl.VariableGeneratorImpl;
+import net.lapusiki.core.impl.PersonVariableGenerator;
 import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.model.Question;
@@ -8,10 +8,11 @@ import net.lapusiki.core.model.Question;
 import java.util.List;
 
 /**
+ * Created by kiv1n on 12.05.15.
  */
 public class QueryBuilder {
 
-    private static VariableGenerator variableGenerator = new VariableGeneratorImpl();
+    private static VariableGenerator variableGenerator = new PersonVariableGenerator();
 
     private final String QUERY_TEMPLATE_FANCY = "SELECT %s \n" +
             "WHERE { \n " +

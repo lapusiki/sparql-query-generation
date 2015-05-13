@@ -1,7 +1,7 @@
 package net.lapusiki.core.impl;
 
+import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.parser.Parser;
-import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Question;
 import net.lapusiki.core.parser.impl.QuestionParser;
 import org.junit.Assert;
@@ -26,9 +26,9 @@ public class QuestionParserTest extends Assert {
 
         String question = "Сколько студентов любят футбол?";
 
-        Holder<Question, String> holder = parser.parse(question);
+        Pair<Question, String> pair = parser.parse(question);
 
-        System.out.println(holder);
+        System.out.println(pair);
 
     }
 }

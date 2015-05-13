@@ -1,7 +1,6 @@
 package net.lapusiki.core.impl;
 
 import net.lapusiki.core.PredicateService;
-import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Predicate;
 
 import java.util.HashMap;

@@ -4,7 +4,7 @@ import net.lapusiki.core.VariableGenerator;
 
 /**
  */
-public class VariableGeneratorImpl implements VariableGenerator {
+public class PersonVariableGenerator implements VariableGenerator {
 
     private static final String OBJECT = "?Person1_";
 

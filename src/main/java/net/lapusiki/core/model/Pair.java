@@ -2,16 +2,16 @@ package net.lapusiki.core.model;
 
 /**
  */
-public class Holder <T,V> {
+public class Pair<T,V> {
 
     private T object1;
 
     private V object2;
 
-    public Holder() {
+    public Pair() {
     }
 
-    public Holder(T object1, V object2) {
+    public Pair(T object1, V object2) {
         this.object1 = object1;
         this.object2 = object2;
     }
@@ -34,7 +34,7 @@ public class Holder <T,V> {
 
     @Override
     public String toString() {
-        return "Holder{" +
+        return "Pair{" +
                 "object1=" + object1 +
                 ", object2=" + object2 +
                 '}';

@@ -7,7 +7,7 @@ import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.model.Question;
 import net.lapusiki.core.parser.Parser;
-import net.lapusiki.core.parser.impl.PrepositionsParser;
+import net.lapusiki.core.parser.impl.PrepositionsAndPunctuationParser;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class QueryParserApplication {
 
-    private static Parser parser = new PrepositionsParser();
+    private static Parser parser = new PrepositionsAndPunctuationParser();
     private static PredicateService predicateService = new MapPredicateService();
     private static QuestionService questionService = new MapQuestionService();
 
