@@ -1,33 +1,24 @@
 package net.lapusiki.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  */
 public class Predicate {
 
-    private List<String> values = new ArrayList<>();
-
-    public Predicate(String... values) {
-        for (String value : values) {
-            this.values.add(value);
-        }
-    }
-
-    public Predicate(List<String> values) {
-        this.values = values;
-    }
+    private String value;
 
     public Predicate() {
     }
 
-    public List<String> getValues() {
-        return values;
+    public Predicate(String value) {
+        this.value = value;
     }
 
-    public void setValues(List<String> values) {
-        this.values = values;
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
@@ -35,21 +26,21 @@ public class Predicate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Predicate that = (Predicate) o;
+        Predicate predicate = (Predicate) o;
 
-        return !(values != null ? !values.equals(that.values) : that.values != null);
+        return !(value != null ? !value.equals(predicate.value) : predicate.value != null);
 
     }
 
     @Override
     public int hashCode() {
-        return values != null ? values.hashCode() : 0;
+        return value != null ? value.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Predicate{" +
-                "values=" + values +
+                "value='" + value + '\'' +
                 '}';
     }
 }

@@ -1,11 +1,17 @@
 package net.lapusiki.core;
 
+import net.lapusiki.core.impl.VariableGeneratorImpl;
 import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Predicate;
+import net.lapusiki.core.model.Question;
+
+import java.util.List;
 
 /**
  */
 public class QueryBuilder {
+
+    private static VariableGenerator variableGenerator = new VariableGeneratorImpl();
 
     private final String QUERY_TEMPLATE_FANCY = "SELECT %s \n" +
             "WHERE { \n " +
@@ -15,9 +21,9 @@ public class QueryBuilder {
             "}";
 
     private String type;
-    private Predicate predicate;
-    private Entity entity;
-    private boolean fancy = false;
+    private List<Question> questions;
+    private List<Predicate> predicates;
+    private List<Entity> entities;
 
     public QueryBuilder() {
     }
@@ -27,52 +33,49 @@ public class QueryBuilder {
         return this;
     }
 
-    public QueryBuilder predicate(Predicate predicate) {
-        this.predicate = predicate;
+    public QueryBuilder questions(List<Question> questions) {
+        this.questions = questions;
         return this;
     }
 
-    public QueryBuilder entity(Entity entity) {
-        this.entity = entity;
+    public QueryBuilder predicates(List<Predicate> predicates) {
+        this.predicates = predicates;
         return this;
     }
 
-    public QueryBuilder fancy(boolean fancy) {
-        this.fancy = fancy;
+    public QueryBuilder entities(List<Entity> entities) {
+        this.entities = entities;
         return this;
     }
 
     public String build() {
 
         // Variables in select
-        String selectVariables = "";
-        for (String predicate : this.predicate.getValues()) {
-            selectVariables += "?" + type + "_" + predicate + " ";
+        // TODO: use question types
+        String selectOptions = "";
+        for (Predicate predicate : predicates) {
+            selectOptions += String.format("%s", variableGenerator.getVariable(predicate.getValue()));
         }
 
         // Rdf Type in Where
-        String rdfType = "?" + type + " rdf:type foaf:" + type + " .\n";
+        String rdfType = String.format("?%s rdf:type foaf:%s .\n", type, type);
 
-        // Predicates
-        String predicates = "";
-        for (String predicate : this.predicate.getValues()) {
-            predicates += " ?" + type + " foaf:" + predicate + " ?" + type + "_" + predicate + " ." + "\n";
+        // Part in where
+        String wherePart = "";
+        for (Predicate predicate : predicates) {
+            wherePart += String.format(" ?%s %s %s .\n", type, predicate.getValue(),
+                    variableGenerator.getVariable(predicate.getValue()));
         }
 
         // Filters
         String filters = "";
-        for (int i = 0; i < this.entity.getValues().size(); i++) {
-            filters += "str(?" + type + "_" + predicate.getValues().get(i)
-                    + ") = \"" + this.entity.getValues().get(i) + "\"" + " && ";
+        for (int i = 0; i < predicates.size(); i++) {
+            filters += String.format("str(%s) = \"%s\" && ",
+                    variableGenerator.getVariable(predicates.get(i).getValue()), entities.get(i).getValue());
         }
         filters = filters.substring(0, filters.length() - 4);
 
-
-        if (!fancy) {
-            // TODO: implement for not fancy return
-        }
-
-        return String.format(QUERY_TEMPLATE_FANCY, selectVariables, rdfType, predicates, filters);
+        return String.format(QUERY_TEMPLATE_FANCY, selectOptions, rdfType, wherePart, filters);
     }
 
 

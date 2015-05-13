@@ -1,33 +1,24 @@
 package net.lapusiki.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  */
 public class Entity {
 
-    private List<String> values = new ArrayList<>();
+    private String value;
 
-    public Entity(String... values) {
-        for (String value : values) {
-            this.values.add(value);
-        }
-    }
-
-    public Entity(List<String> values) {
-        this.values = values;
+    public Entity(String value) {
+        this.value = value;
     }
 
     public Entity() {
     }
 
-    public List<String> getValues() {
-        return values;
+    public String getValue() {
+        return value;
     }
 
-    public void setValues(List<String> values) {
-        this.values = values;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
@@ -37,20 +28,19 @@ public class Entity {
 
         Entity entity = (Entity) o;
 
-        return !(values != null ? !values.equals(entity.values) : entity.values != null);
+        return !(value != null ? !value.equals(entity.value) : entity.value != null);
 
     }
 
     @Override
     public int hashCode() {
-        return values != null ? values.hashCode() : 0;
+        return value != null ? value.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Entity{" +
-                "values=" + values +
+                "value='" + value + '\'' +
                 '}';
     }
-
 }
