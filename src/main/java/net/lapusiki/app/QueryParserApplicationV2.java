@@ -19,7 +19,7 @@ public class QueryParserApplicationV2 {
 
     public static void main(String[] args) throws Exception {
 
-        String inputQuery = "Где учится Вася?";
+        String inputQuery = "Сколько студентов любят футбол?";
 
         // Определяем сначала вопросительное слово,
         // в остаточной части определяем предикат,
@@ -28,7 +28,7 @@ public class QueryParserApplicationV2 {
         Holder<Predicate, String> predicateHolder = predicateParser.parse(questionHolder.getObject2());
         Holder<Entity, String> entityHolder = entityParser.parse(predicateHolder.getObject2());
 
-        // Заносим все полученные знания в глобальный holde
+        // Заносим все полученные знания в глобальный holder
         GlobalQueryHolder globalQueryHolder = new GlobalQueryHolder();
         globalQueryHolder.getQuestions().add(questionHolder.getObject1());
         globalQueryHolder.getPredicates().add(predicateHolder.getObject1());

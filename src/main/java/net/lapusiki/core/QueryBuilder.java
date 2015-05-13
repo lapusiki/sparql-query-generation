@@ -53,8 +53,16 @@ public class QueryBuilder {
         // Variables in select
         // TODO: use question types
         String selectOptions = "";
+        for (int i = 0; i < predicates.size(); i++) {
+            // If question type is custom then add "count()"
+            if (questions.get(i).getType().equals(QuestionType.CUSTOM_QUESTION)) {
+                selectOptions += String.format("count(%s)", variableGenerator.getVariable(predicates.get(i).getValue()));
+            } else {
+                selectOptions += String.format("%s", variableGenerator.getVariable(predicates.get(i).getValue()));
+            }
+        }
         for (Predicate predicate : predicates) {
-            selectOptions += String.format("%s", variableGenerator.getVariable(predicate.getValue()));
+
         }
 
         // Rdf Type in Where

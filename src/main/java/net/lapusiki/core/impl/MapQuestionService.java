@@ -14,7 +14,7 @@ public class MapQuestionService implements QuestionService {
 
     private Map<String, QuestionType> questions = new HashMap<String, QuestionType>() {{
         this.put("Кто", QuestionType.SIMPLE_QUESTION);
-        this.put("Cколько", QuestionType.CUSTOM_QUESTION);
+        this.put("Сколько", QuestionType.CUSTOM_QUESTION);
     }};
 
 

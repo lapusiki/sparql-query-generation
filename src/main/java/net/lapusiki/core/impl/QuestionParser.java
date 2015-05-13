@@ -35,7 +35,7 @@ public class QuestionParser implements Parser {
 
         // Если вопросы типа "сколько?"
         else if (questionType.equals(QuestionType.CUSTOM_QUESTION)) {
-            // Собираем остаточную часть начиная со 2 элемента
+            // Собираем остаточную часть начиная с 3 элемента
             String object2 = "";
             for (int i = 2; i < parsedQuestion.length; i++) {
                 object2 += new StringBuilder().append(parsedQuestion[i]).append(" ");
