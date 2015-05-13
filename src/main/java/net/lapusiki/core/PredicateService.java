@@ -1,8 +1,10 @@
 package net.lapusiki.core;
 
+import net.lapusiki.core.model.Predicate;
+
 /**
  * Created by blvp on 12.05.15.
  */
 public interface PredicateService {
-    String resolvePredicate(String... words);
+    Predicate resolvePredicate(String... words);
 }

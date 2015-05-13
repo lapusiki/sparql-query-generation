@@ -27,7 +27,7 @@ public class QueryParserApplication {
         if(length != 3) throw new UnsupportedOperationException("Пока не умеем распознавать такие запросы!");
 
         String question = parsedItems[0];
-        Predicate predicate = new Predicate(predicateService.resolvePredicate(parsedItems[1]));
+        Predicate predicate = predicateService.resolvePredicate(parsedItems[1]);
         Entity entity = new Entity(parsedItems[2]);
         QuestionType questionType = questionService.resolveQuestion(question);
 
