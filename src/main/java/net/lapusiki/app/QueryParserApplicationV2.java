@@ -21,15 +21,20 @@ public class QueryParserApplicationV2 {
 
         String inputQuery = "Где учится Вася?";
 
+        // Определяем сначала вопросительное слово,
+        // в остаточной части определяем предикат,
+        // далее в оставшейся части определяем объект
         Holder<Question, String> questionHolder = questionParser.parse(inputQuery);
         Holder<Predicate, String> predicateHolder = predicateParser.parse(questionHolder.getObject2());
         Holder<Entity, String> entityHolder = entityParser.parse(predicateHolder.getObject2());
 
+        // Заносим все полученные знания в глобальный holde
         GlobalQueryHolder globalQueryHolder = new GlobalQueryHolder();
         globalQueryHolder.getQuestions().add(questionHolder.getObject1());
         globalQueryHolder.getPredicates().add(predicateHolder.getObject1());
         globalQueryHolder.getEntities().add(entityHolder.getObject1());
 
+        // Строим запрос
         String query = new QueryBuilder()
                 .type(TYPE_FOR_SPARQL)
                 .questions(globalQueryHolder.getQuestions())

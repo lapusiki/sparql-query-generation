@@ -19,6 +19,8 @@ public class PredicateParser implements Parser {
         Predicate predicate = predicateService.resolvePredicate(parsedSentence[0]);
 
         holder.setObject1(predicate);
+
+        // Собираем остаточную часть после предиката
         String object2 = "";
         for (int i = 1; i < parsedSentence.length; i++) {
             object2 += new StringBuilder().append(parsedSentence[i]).append(" ");
