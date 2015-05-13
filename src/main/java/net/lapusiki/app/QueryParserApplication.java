@@ -2,10 +2,7 @@ package net.lapusiki.app;
 
 import com.google.common.collect.Lists;
 import net.lapusiki.core.*;
-import net.lapusiki.core.impl.MapPredicateService;
-import net.lapusiki.core.impl.MapQuestionService;
-import net.lapusiki.core.impl.QuestionParser;
-import net.lapusiki.core.impl.VariableGeneratorImpl;
+import net.lapusiki.core.impl.*;
 import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.model.Question;
@@ -17,13 +14,13 @@ import java.util.List;
  */
 public class QueryParserApplication {
 
-    private static Parser parser = new QuestionParser();
+    private static Parser parser = new PrepositionsParser();
     private static PredicateService predicateService = new MapPredicateService();
     private static QuestionService questionService = new MapQuestionService();
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         String[] parsedItems = (String[]) parser.parse("Кто знает java?");
         int length = parsedItems.length;
 
