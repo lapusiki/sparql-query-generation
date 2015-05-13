@@ -1,6 +1,7 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core.parser.impl;
 
-import net.lapusiki.core.Parser;
+import net.lapusiki.core.impl.MapPredicateService;
+import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Predicate;

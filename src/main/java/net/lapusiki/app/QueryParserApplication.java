@@ -6,6 +6,8 @@ import net.lapusiki.core.impl.*;
 import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.model.Question;
+import net.lapusiki.core.parser.Parser;
+import net.lapusiki.core.parser.impl.PrepositionsParser;
 
 import java.util.List;
 

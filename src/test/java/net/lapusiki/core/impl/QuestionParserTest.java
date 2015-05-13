@@ -1,14 +1,11 @@
 package net.lapusiki.core.impl;
 
-import junit.framework.TestCase;
-import net.lapusiki.core.Parser;
+import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Question;
+import net.lapusiki.core.parser.impl.QuestionParser;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public class QuestionParserTest extends Assert {
 

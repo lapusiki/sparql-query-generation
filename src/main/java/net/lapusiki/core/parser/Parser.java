@@ -1,4 +1,4 @@
-package net.lapusiki.core;
+package net.lapusiki.core.parser;
 
 /**
  * Created by blvp on 12.05.15.

@@ -1,13 +1,11 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core.parser.impl;
 
-import com.google.common.collect.Lists;
-import net.lapusiki.core.Parser;
+import net.lapusiki.core.impl.MapQuestionService;
+import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.QuestionService;
 import net.lapusiki.core.QuestionType;
 import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Question;
-
-import java.util.List;
 
 /**
  * Created by blvp on 12.05.15.

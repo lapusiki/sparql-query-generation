@@ -1,9 +1,9 @@
 package net.lapusiki.app;
 
 import net.lapusiki.core.QueryBuilder;
-import net.lapusiki.core.impl.EntityParser;
-import net.lapusiki.core.impl.PredicateParser;
-import net.lapusiki.core.impl.QuestionParser;
+import net.lapusiki.core.parser.impl.EntityParser;
+import net.lapusiki.core.parser.impl.PredicateParser;
+import net.lapusiki.core.parser.impl.QuestionParser;
 import net.lapusiki.core.model.*;
 
 /**

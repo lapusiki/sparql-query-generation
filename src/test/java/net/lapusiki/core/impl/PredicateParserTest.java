@@ -2,9 +2,8 @@ package net.lapusiki.core.impl;
 
 import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Predicate;
+import net.lapusiki.core.parser.impl.PredicateParser;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  */
