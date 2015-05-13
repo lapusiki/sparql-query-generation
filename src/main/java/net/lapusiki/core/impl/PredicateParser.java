@@ -5,8 +5,6 @@ import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.model.Holder;
 import net.lapusiki.core.model.Predicate;
 
-import java.util.Arrays;
-
 /**
  */
 public class PredicateParser implements Parser {
@@ -21,7 +19,11 @@ public class PredicateParser implements Parser {
         Predicate predicate = predicateService.resolvePredicate(parsedSentence[0]);
 
         holder.setObject1(predicate);
-        holder.setObject2(Arrays.toString(Arrays.copyOfRange(parsedSentence, 1, parsedSentence.length)));
+        String object2 = "";
+        for (int i = 1; i < parsedSentence.length; i++) {
+            object2 += new StringBuilder().append(parsedSentence[i]).append(" ");
+        }
+        holder.setObject2(object2);
 
         return holder;
     }

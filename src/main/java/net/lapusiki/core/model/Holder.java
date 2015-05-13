@@ -8,6 +8,14 @@ public class Holder <T,V> {
 
     private V object2;
 
+    public Holder() {
+    }
+
+    public Holder(T object1, V object2) {
+        this.object1 = object1;
+        this.object2 = object2;
+    }
+
     public T getObject1() {
         return object1;
     }
