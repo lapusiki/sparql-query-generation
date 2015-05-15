@@ -39,6 +39,7 @@ public class EngineV1 implements Engine {
         queryHolder.getPredicateEntityPairs().add(pair.getObject1());
         while (pair.getObject2() != null) {
             pair = searchPredicateEntityPairs(pair.getObject2());
+            queryHolder.getPredicateEntityPairs().add(pair.getObject1());
         }
 
         return queryHolder;

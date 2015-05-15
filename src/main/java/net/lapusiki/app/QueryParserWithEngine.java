@@ -13,7 +13,7 @@ public class QueryParserWithEngine {
 
     public static void main(String[] args) throws Exception {
 
-        String query = "Кто знает Java?";
+        String query = "Кто умеет писать на питоне и смотрел фильм Терминатор?";
 
         System.out.println("Query: " + query);
 
