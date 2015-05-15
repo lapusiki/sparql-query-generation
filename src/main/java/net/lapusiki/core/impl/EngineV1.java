@@ -51,8 +51,15 @@ public class EngineV1 implements Engine {
         // После этого у нас остается необработанная часть предложения,
         // в котором будет уже другой предикат, но это уже совсем другая история
         Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
-        Pair<Entity, String> entityPair = entityParser.parse(predicatePair.getObject2());
-        return new Pair<>(new Pair<>(predicatePair.getObject1(), entityPair.getObject1()), entityPair.getObject2());
+        Triple<Entity, String, OperatorType> entityTriple = entityParser.parse(predicatePair.getObject2());
+
+        // Если entity parser обнаружил стоп слово, то добавляем соответсвующий оператор
+        // в предикат
+        if (entityTriple.getObject3() != null) {
+            predicatePair.getObject1().setAfterPredicateOperator(entityTriple.getObject3());
+        }
+
+        return new Pair<>(new Pair<>(predicatePair.getObject1(), entityTriple.getObject1()), entityTriple.getObject2());
     }
 
     private String wordsToSentence(String[] words) {

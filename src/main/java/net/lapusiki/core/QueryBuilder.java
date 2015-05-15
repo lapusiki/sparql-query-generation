@@ -81,11 +81,19 @@ public class QueryBuilder {
         // Заполняем часть filters
         StringBuilder filters = new StringBuilder();
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
-            filters.append(String.format("str(%s) = \"%s\" && ", pair.getObject1().hashCode(), pair.getObject2().getValue()));
+            filters.append(String.format("str(%s) = \"%s\"", pair.getObject1().hashCode(), pair.getObject2().getValue()));
+            // Опредялем, есть после придиката операторы "и" или "или"
+            if (pair.getObject1().getAfterPredicateOperator() != null) {
+                switch (pair.getObject1().getAfterPredicateOperator()) {
+                    case AND:
+                        filters.append(" && ");
+                        break;
+                    case OR:
+                        filters.append(" || ");
+                        break;
+                }
+            }
         }
-        // TODO: избавить от этой вакханалии
-        // Убираем последние символы " && "
-        filters.delete(filters.length() - 4, filters.length());
 
         return String.format(QUERY_TEMPLATE_FANCY, selectHeader, whereRdfType, restWherePart, filters);
     }
