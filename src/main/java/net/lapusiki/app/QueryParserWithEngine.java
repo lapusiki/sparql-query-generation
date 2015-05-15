@@ -12,9 +12,20 @@ public class QueryParserWithEngine {
 
     private static Engine engine = new EngineV1();
 
+    // На данный момент правильно обрабатываются запросы: 1, 3, 4
+    private static String[] questions = {
+            "Кто знает java?",
+            "Сколько студентов любят футбол?",
+            "Где учится Вася? (в какой лабе)",
+            "Кто посещает лабу Мобильных разработок?",
+            "Кто умеет писать на питоне и смотрел фильм Терминатор?",
+            "Сколько языков программирования знает Вася?"
+    };
+
+
     public static void main(String[] args) throws Exception {
 
-        String query = "Кто умеет писать на питоне и смотрел фильм Терминатор?";
+        String query = questions[5];
 
         System.out.println("Query: " + query);
 

@@ -34,6 +34,11 @@ public class PredicateParser implements Parser {
             }
         }
 
+        // Если предикат по прежнему не найден, то выкидываем ошибку
+        if (predicate == null || predicate.getPredicateType() == null) {
+            throw new Exception("Предикат не найден. Он или больше 2 слов или отсутсвует в базе знаний");
+        }
+
         pair.setObject1(predicate);
 
         // Собираем остаточную часть после предиката,

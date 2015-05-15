@@ -19,6 +19,7 @@ public class MapPredicateService implements PredicateService {
         this.put("знает", PredicateType.INTEREST);
         this.put("любят", PredicateType.INTEREST);
         this.put("умеет писать", PredicateType.PL);
+        this.put("посещает лабу", PredicateType.ITIS_LAB);
         this.put("смотрел", PredicateType.INTEREST);
     }};
 
