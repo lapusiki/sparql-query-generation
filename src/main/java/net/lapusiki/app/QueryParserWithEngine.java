@@ -1,6 +1,7 @@
 package net.lapusiki.app;
 
 import net.lapusiki.core.Engine;
+import net.lapusiki.core.QueryBuilder;
 import net.lapusiki.core.impl.EngineV1;
 import net.lapusiki.core.model.QueryHolder;
 
@@ -19,7 +20,13 @@ public class QueryParserWithEngine {
 
         QueryHolder queryHolder = engine.processQuery(query);
 
-        System.out.println(queryHolder);
+        String sparqlQuery = new QueryBuilder()
+                .rdfType("Person")
+                .question(queryHolder.getQuestion())
+                .predicateEntityPair(queryHolder.getPredicateEntityPairs())
+                .build();
+
+        System.out.println(sparqlQuery);
 
     }
 

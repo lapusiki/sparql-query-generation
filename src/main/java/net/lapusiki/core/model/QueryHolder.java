@@ -9,7 +9,7 @@ import java.util.List;
 public class QueryHolder {
 
     private Question question;
-    private List<Pair<Predicate, Entity>> PredicateEntityPairs= new ArrayList<>();
+    private List<Pair<Predicate, Entity>> predicateEntityPairs = new ArrayList<>();
 
     public Question getQuestion() {
         return question;
@@ -20,18 +20,18 @@ public class QueryHolder {
     }
 
     public List<Pair<Predicate, Entity>> getPredicateEntityPairs() {
-        return PredicateEntityPairs;
+        return predicateEntityPairs;
     }
 
     public void setPredicateEntityPairs(List<Pair<Predicate, Entity>> predicateEntityPairs) {
-        PredicateEntityPairs = predicateEntityPairs;
+        this.predicateEntityPairs = predicateEntityPairs;
     }
 
     @Override
     public String toString() {
         return "QueryHolder{" +
                 "question=" + question +
-                ", PredicateEntityPairs=" + PredicateEntityPairs +
+                ", predicateEntityPairs=" + predicateEntityPairs +
                 '}';
     }
 }

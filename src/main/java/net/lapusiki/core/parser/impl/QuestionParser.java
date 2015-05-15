@@ -24,8 +24,8 @@ public class QuestionParser implements Parser {
         pair.setObject1(new Question(questionType));
 
         // Если вопросы типа "кто?"
-        if (questionType.equals(QuestionType.SIMPLE_QUESTION)) {
-            // Собираем остаточную часть начиная со 2 элемента
+        if (questionType.equals(QuestionType.WHO_QUESTION)) {
+            // Собираем остаточную часть предложения начиная со 2 элемента
             StringBuilder object2 = new StringBuilder();
             for (int i = 1; i < parsedQuestion.length; i++) {
                 object2.append(parsedQuestion[i]).append(" ");

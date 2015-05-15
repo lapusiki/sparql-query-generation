@@ -2,9 +2,11 @@ package net.lapusiki.core;
 
 import net.lapusiki.core.impl.PersonVariableGenerator;
 import net.lapusiki.core.model.Entity;
+import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.model.Question;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,70 +23,71 @@ public class QueryBuilder {
             "FILTER (%s)\n" +
             "}";
 
-    private String type;
-    private List<Question> questions;
-    private List<Predicate> predicates;
-    private List<Entity> entities;
+    private String rdfType;
+    private Question question;
+    private List<Pair<Predicate, Entity>> predicateEntityPairs = new ArrayList<>();
 
     public QueryBuilder() {
     }
 
-    public QueryBuilder type(String type) {
-        this.type = type;
+    public QueryBuilder rdfType(String rdfType) {
+        this.rdfType = rdfType;
         return this;
     }
 
-    public QueryBuilder questions(List<Question> questions) {
-        this.questions = questions;
+    public QueryBuilder question(Question question) {
+        this.question = question;
         return this;
     }
 
-    public QueryBuilder predicates(List<Predicate> predicates) {
-        this.predicates = predicates;
+    public QueryBuilder predicateEntityPair(Pair<Predicate, Entity> pair) {
+        predicateEntityPairs.add(pair);
         return this;
     }
 
-    public QueryBuilder entities(List<Entity> entities) {
-        this.entities = entities;
+    public QueryBuilder predicateEntityPair(List<Pair<Predicate, Entity>> pairs) {
+        predicateEntityPairs.addAll(pairs);
         return this;
     }
 
-    public String build() {
+    public String build() throws Exception {
 
-        // Variables in select
-        // TODO: use question types
-        String selectOptions = "";
-        for (int i = 0; i < predicates.size(); i++) {
-            // If question type is custom then add "count()"
-            if (questions.get(i).getType().equals(QuestionType.CUSTOM_QUESTION)) {
-                selectOptions += String.format("count(%s)", variableGenerator.getVariable(predicates.get(i).getValue()));
-            } else {
-                selectOptions += String.format("%s", variableGenerator.getVariable(predicates.get(i).getValue()));
-            }
+        // Проверка на наличие всех полей
+        if (question == null) {
+            throw new Exception("Не найден question");
         }
-        for (Predicate predicate : predicates) {
-
+        if (predicateEntityPairs.size() == 0) {
+            throw new Exception("Не найдены пары <Predicate,Entity>");
         }
 
-        // Rdf Type in Where
-        String rdfType = String.format("?%s rdf:type foaf:%s .\n", type, type);
-
-        // Part in where
-        String wherePart = "";
-        for (Predicate predicate : predicates) {
-            wherePart += String.format(" ?%s %s %s .\n", type, predicate.getValue(),
-                    variableGenerator.getVariable(predicate.getValue()));
+        // Заполняем select header
+        String selectHeader = "";
+        if (question.getType() == QuestionType.WHO_QUESTION) {
+            selectHeader += String.format("%s", "?full_name");
+        } else {
+            throw new Exception("Пока не умею строить запросы для такого типа вопроса");
         }
 
-        // Filters
-        String filters = "";
-        for (int i = 0; i < predicates.size(); i++) {
-            filters += String.format("str(%s) = \"%s\" && ",
-                    variableGenerator.getVariable(predicates.get(i).getValue()), entities.get(i).getValue());
-        }
-        filters = filters.substring(0, filters.length() - 4);
+        // Заполняем rdf type в части where
+        String whereRdfType = String.format("?%s rdf:rdfType foaf:%s .\n", this.rdfType, this.rdfType);
 
-        return String.format(QUERY_TEMPLATE_FANCY, selectOptions, rdfType, wherePart, filters);
+        // Заполняем оставшуюся часть where
+        // TODO: в часть where нужно ещё добавлять поля, которые используются в select
+        StringBuilder restWherePart = new StringBuilder();
+        for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
+            restWherePart.append(String.format(" ?person %s ?%s .\n", pair.getObject1().getValue(), pair.getObject1().hashCode()));
+        }
+
+        // Заполняем часть filters
+        StringBuilder filters = new StringBuilder();
+        for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
+            filters.append(String.format("str(%s) = \"%s\" && ", pair.getObject1().hashCode(), pair.getObject2().getValue()));
+        }
+        // TODO: избавить от этой вакханалии
+        // Убираем последние символы " && "
+        filters.delete(filters.length() - 4, filters.length());
+
+        return String.format(QUERY_TEMPLATE_FANCY, selectHeader, whereRdfType, restWherePart, filters);
     }
 
 

@@ -34,7 +34,10 @@ public class Predicate {
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        // Для хэшкода берутся только положительные числа, чтобы
+        // они подходили для sparql запроса
+        // Лучше не трогать, итак должно работать
+        return value != null ? Math.abs(value.hashCode()) : 0;
     }
 
     @Override
