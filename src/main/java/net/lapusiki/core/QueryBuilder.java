@@ -69,13 +69,13 @@ public class QueryBuilder {
         }
 
         // Заполняем rdf type в части where
-        String whereRdfType = String.format("?%s rdf:rdfType foaf:%s .\n", this.rdfType, this.rdfType);
+        String whereRdfType = String.format("?person rdf:rdfType foaf:%s .\n", this.rdfType);
 
         // Заполняем оставшуюся часть where
         // TODO: в часть where нужно ещё добавлять поля, которые используются в select
         StringBuilder restWherePart = new StringBuilder();
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
-            restWherePart.append(String.format(" ?person %s ?%s .\n", pair.getObject1().getValue(), pair.getObject1().hashCode()));
+            restWherePart.append(String.format(" ?person %s ?%s .\n", pair.getObject1().getPredicateType().getValue(), pair.getObject1().hashCode()));
         }
 
         // Заполняем часть filters

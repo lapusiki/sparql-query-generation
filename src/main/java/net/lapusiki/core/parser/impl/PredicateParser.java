@@ -26,10 +26,10 @@ public class PredicateParser implements Parser {
         Predicate predicate = predicateService.resolvePredicate(parsedSentence[0]);
 
         // Если предикат не найден, то пробуем найти предикат по двум первым словам
-        if (predicate == null || predicate.getValue() == null) {
+        if (predicate == null || predicate.getPredicateType() == null) {
             predicate = predicateService.resolvePredicate(parsedSentence[0], parsedSentence[1]);
             // Если предикат найден и его длина = 2
-            if (predicate != null && predicate.getValue() != null) {
+            if (predicate != null && predicate.getPredicateType() != null) {
                 predicateLength = 2;
             }
         }

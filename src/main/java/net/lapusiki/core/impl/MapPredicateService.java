@@ -1,6 +1,7 @@
 package net.lapusiki.core.impl;
 
 import net.lapusiki.core.PredicateService;
+import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.model.Predicate;
 
 import java.util.HashMap;
@@ -14,11 +15,11 @@ import java.util.Map;
  */
 public class MapPredicateService implements PredicateService {
 
-    private Map<String, String> predicates = new HashMap<String, String>() {{
-        this.put("знает", "foaf:interest");
-        this.put("любят", "foaf:interest");
-        this.put("умеет писать", "foaf:programmingLanguage");
-        this.put("смотрел", "foaf:interest");
+    private Map<String, PredicateType> predicates = new HashMap<String, PredicateType>() {{
+        this.put("знает", PredicateType.INTEREST);
+        this.put("любят", PredicateType.INTEREST);
+        this.put("умеет писать", PredicateType.PL);
+        this.put("смотрел", PredicateType.INTEREST);
     }};
 
     @Override
