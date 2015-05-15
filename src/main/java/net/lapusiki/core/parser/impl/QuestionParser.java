@@ -1,5 +1,6 @@
 package net.lapusiki.core.parser.impl;
 
+import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.impl.MapQuestionService;
 import net.lapusiki.core.model.Pair;
@@ -8,6 +9,8 @@ import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.QuestionService;
 import net.lapusiki.core.QuestionType;
 import net.lapusiki.core.model.Question;
+
+import java.util.Arrays;
 
 /**
  * Created by blvp on 12.05.15.
@@ -23,25 +26,52 @@ public class QuestionParser implements Parser {
 
         QuestionService questionService = new MapQuestionService();
         QuestionType questionType = questionService.resolveQuestion(parsedQuestion[0]);
+
+        // Если такой вопрос не найден в базе знаний, то выкидываем ошибку
+        if (questionType == null) {
+            throw new Exception("Вопрос отсутсвует в базе знаний");
+        }
+
         pair.setObject1(new Question(questionType));
 
-        // Если вопросы типа "кто?"
+        // Если вопрос типа "кто?"
         if (questionType.equals(QuestionType.WHO_QUESTION)) {
 
             // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
             pair.getObject1().setPredicate(new Predicate(PredicateType.FULL_NAME));
 
-            // Собираем остаточную часть предложения начиная со 2 элемента
-            StringBuilder object2 = new StringBuilder();
-            for (int i = 1; i < parsedQuestion.length; i++) {
-                object2.append(parsedQuestion[i]).append(" ");
+            // Запоминаем остаточную часть предложения начиная со 2 элемента
+            pair.setObject2(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
+
+        // Если вопрос типа "сколько?"
+        } else if (questionType.equals(QuestionType.COUNT_QUESTION)) {
+
+            // Для того, чтобы определить объект, кол-во которого нужно найти,
+            // пытаемся найти подходящий предикат который идет сразу после вопроса.
+            // Далее сохраним найденный предикат в объекте вопроса
+            PredicateParser parser = new PredicateParser();
+            Pair<Predicate, String> predicatePair = parser.parse(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
+
+            if (predicatePair.getObject1() == null || predicatePair.getObject1().getPredicateType() == null) {
+                throw new Exception("Не найден предикат для вопросительного слова \"сколько\"");
             }
-            pair.setObject2(object2.toString());
+
+            pair.getObject1().setPredicate(predicatePair.getObject1());
+            pair.setObject2(predicatePair.getObject2());
+
         } else {
             throw new Exception("Пока не умею обрабатывать такие вопросные слова");
         }
 
         return pair;
 
+    }
+
+    private String wordsToSentence(String[] words) {
+        StringBuilder builder = new StringBuilder();
+        for (String word : words) {
+            builder.append(word).append(" ");
+        }
+        return builder.toString();
     }
 }

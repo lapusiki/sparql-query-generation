@@ -21,6 +21,7 @@ public class MapPredicateService implements PredicateService {
         this.put("умеет писать", PredicateType.PL);
         this.put("посещает лабу", PredicateType.ITIS_LAB);
         this.put("смотрел", PredicateType.INTEREST);
+        this.put("студентов", PredicateType.FULL_NAME);
     }};
 
     @Override

@@ -7,14 +7,15 @@ package net.lapusiki.core;
  * @author kiv1n
  */
 public enum QuestionType {
+
     WHO_QUESTION("select ?fullname"),
-    SIMPLE_QUESTION("simple select ?varname query"),
-    CUSTOM_QUESTION("count(?varname) query");
+    COUNT_QUESTION("select count(varname)");
+
+    private final String description;
+
     QuestionType(String description) {
         this.description = description;
     }
-
-    private final String description;
 
     public String getDescription() {
         return description;

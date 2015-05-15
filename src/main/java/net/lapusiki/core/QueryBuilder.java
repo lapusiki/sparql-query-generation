@@ -62,6 +62,8 @@ public class QueryBuilder {
         String selectHeader = "";
         if (question.getType() == QuestionType.WHO_QUESTION) {
             selectHeader += String.format("?%s", question.getPredicate().hashCode());
+        } else if (question.getType() == QuestionType.COUNT_QUESTION) {
+            selectHeader += String.format("?count(%s)", question.getPredicate().hashCode());
         } else {
             throw new Exception("Пока не умею строить запросы для такого типа вопроса");
         }

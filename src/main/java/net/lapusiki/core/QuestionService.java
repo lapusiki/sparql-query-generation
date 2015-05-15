@@ -7,5 +7,4 @@ public interface QuestionService {
 
     QuestionType resolveQuestion(String... questionWords);
 
-    String getSelectOption(QuestionType questionType, String variableName);
 }

@@ -16,7 +16,7 @@ public class QueryParserWithEngine {
     private static String[] questions = {
             "Кто знает java?",
             "Сколько студентов любят футбол?",
-            "Где учится Вася? (в какой лабе)",
+            "Где учится Вася?",
             "Кто посещает лабу Мобильных разработок?",
             "Кто умеет писать на питоне и смотрел фильм Терминатор?",
             "Сколько языков программирования знает Вася?"
@@ -25,7 +25,7 @@ public class QueryParserWithEngine {
 
     public static void main(String[] args) throws Exception {
 
-        String query = questions[5];
+        String query = questions[1];
 
         System.out.println("Query: " + query);
 
