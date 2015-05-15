@@ -1,7 +1,9 @@
 package net.lapusiki.core.parser.impl;
 
+import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.impl.MapQuestionService;
 import net.lapusiki.core.model.Pair;
+import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.QuestionService;
 import net.lapusiki.core.QuestionType;
@@ -25,6 +27,10 @@ public class QuestionParser implements Parser {
 
         // Если вопросы типа "кто?"
         if (questionType.equals(QuestionType.WHO_QUESTION)) {
+
+            // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
+            pair.getObject1().setPredicate(new Predicate(PredicateType.FULL_NAME));
+
             // Собираем остаточную часть предложения начиная со 2 элемента
             StringBuilder object2 = new StringBuilder();
             for (int i = 1; i < parsedQuestion.length; i++) {

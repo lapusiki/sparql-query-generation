@@ -5,7 +5,7 @@ package net.lapusiki.core;
  */
 public enum PredicateType {
 
-    NAME("foaf:name"),
+    FULL_NAME("foaf:full_name"),
     INTEREST("foaf:interest"),
     ITIS_LAB("foaf:itisLab"),
     PL("dbpedia-owl:programmingLanguage");

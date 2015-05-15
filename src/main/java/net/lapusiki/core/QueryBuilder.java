@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class QueryBuilder {
 
-    private static VariableGenerator variableGenerator = new PersonVariableGenerator();
-
     private final String QUERY_TEMPLATE_FANCY = "SELECT %s \n" +
             "WHERE { \n " +
             "%s" +
@@ -63,7 +61,7 @@ public class QueryBuilder {
         // Заполняем select header
         String selectHeader = "";
         if (question.getType() == QuestionType.WHO_QUESTION) {
-            selectHeader += String.format("%s", "?full_name");
+            selectHeader += String.format("?%s", question.getPredicate().hashCode());
         } else {
             throw new Exception("Пока не умею строить запросы для такого типа вопроса");
         }
@@ -72,8 +70,10 @@ public class QueryBuilder {
         String whereRdfType = String.format("?person rdf:rdfType foaf:%s .\n", this.rdfType);
 
         // Заполняем оставшуюся часть where
-        // TODO: в часть where нужно ещё добавлять поля, которые используются в select
         StringBuilder restWherePart = new StringBuilder();
+        // Добавляем всё, что относится к select
+        restWherePart.append(String.format(" ?person %s ?%s .\n", question.getPredicate().getPredicateType().getValue(), question.getPredicate().hashCode()));
+        // Добавляем всё, что относится к filter
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
             restWherePart.append(String.format(" ?person %s ?%s .\n", pair.getObject1().getPredicateType().getValue(), pair.getObject1().hashCode()));
         }
