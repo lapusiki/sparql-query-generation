@@ -4,6 +4,8 @@ import com.google.common.base.Joiner;
 import net.lapusiki.core.model.*;
 import net.lapusiki.core.model.enums.OperatorType;
 import net.lapusiki.core.parser.Parser;
+import net.lapusiki.core.service.EntityService;
+import net.lapusiki.core.service.impl.MapEntityService;
 import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.util.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class EntityParser implements Parser {
 
     @Autowired
     private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
+
+    @Autowired
+    private MapEntityService entityService;
 
     @Override
     public Triple<Entity, String, OperatorType> parse(String sentence) throws Exception {
@@ -65,9 +70,15 @@ public class EntityParser implements Parser {
 
         }
         // Если стоп слова не найдеы, то добавляем все слова в объект
-        // Получаем объект pair, у которого остаточная часть = null
+        // Получаем объект tripple, у которого остаточная часть = null
         if (triple.getFirst() == null) {
             triple.setFirst(new Entity(sentence));
+        }
+
+        // Заменяем полученный entity на подходящий из базы данных sparql
+        Entity entity = entityService.resolveEntity(prepositionsAndPunctuationParser.parse(triple.getFirst().getValue()));
+        if (entity != null) {
+            triple.setFirst(entity);
         }
 
         return triple;

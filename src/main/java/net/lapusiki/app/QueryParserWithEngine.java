@@ -6,6 +6,8 @@ import net.lapusiki.core.QueryBuilder;
 import net.lapusiki.core.util.QueryHolder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.Arrays;
+
 /**
  * Created by kiv1n on 14.05.2015
  */
