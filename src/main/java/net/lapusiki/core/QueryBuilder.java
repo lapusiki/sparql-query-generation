@@ -28,11 +28,6 @@ public class QueryBuilder {
     public QueryBuilder() {
     }
 
-    public QueryBuilder rdfType(String rdfType) {
-        this.rdfType = rdfType;
-        return this;
-    }
-
     public QueryBuilder question(Question question) {
         this.question = question;
         return this;

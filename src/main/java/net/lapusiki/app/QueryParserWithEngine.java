@@ -31,7 +31,6 @@ public class QueryParserWithEngine {
         QueryHolder queryHolder = engine.processQuery(query);
 
         String sparqlQuery = new QueryBuilder()
-                .rdfType("Person")
                 .question(queryHolder.getQuestion())
                 .predicateEntityPair(queryHolder.getPredicateEntityPairs())
                 .build();
