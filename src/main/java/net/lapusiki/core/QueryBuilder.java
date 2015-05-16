@@ -1,6 +1,5 @@
 package net.lapusiki.core;
 
-import net.lapusiki.core.impl.PersonVariableGenerator;
 import net.lapusiki.core.model.Entity;
 import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.model.Predicate;
@@ -59,11 +58,13 @@ public class QueryBuilder {
         }
 
         // Заполняем select header
-        String selectHeader = "";
-        if (question.getType() == QuestionType.WHO_QUESTION) {
-            selectHeader += String.format("?%s", question.getPredicate().hashCode());
-        } else if (question.getType() == QuestionType.COUNT_QUESTION) {
-            selectHeader += String.format("?count(%s)", question.getPredicate().hashCode());
+        StringBuilder selectHeader = new StringBuilder();
+        if (question.getType() == QuestionType.GET_FULLNAME_QUESTION) {
+            selectHeader.append(String.format("?%s", question.getPredicate().hashCode()));
+        } else if (question.getType() == QuestionType.GET_COUNT_QUESTION) {
+            selectHeader.append(String.format("?count(%s)", question.getPredicate().hashCode()));
+        } else if (question.getType() == QuestionType.GET_VAR_QUESTION) {
+            selectHeader.append(String.format("?%s", question.getPredicate().hashCode()));
         } else {
             throw new Exception("Пока не умею строить запросы для такого типа вопроса");
         }

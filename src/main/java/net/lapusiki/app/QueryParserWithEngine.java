@@ -12,7 +12,8 @@ public class QueryParserWithEngine {
 
     private static Engine engine = new EngineV1();
 
-    // На данный момент правильно обрабатываются запросы: 1, 3, 4
+    // На данный момент правильно обрабатываются запросы (отсчет начинается с 0):
+    // 0, 1, 2, 3, 4
     private static String[] questions = {
             "Кто знает java?",
             "Сколько студентов любят футбол?",
@@ -25,7 +26,7 @@ public class QueryParserWithEngine {
 
     public static void main(String[] args) throws Exception {
 
-        String query = questions[1];
+        String query = questions[2];
 
         System.out.println("Query: " + query);
 

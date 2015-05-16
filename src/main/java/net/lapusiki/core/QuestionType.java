@@ -8,8 +8,9 @@ package net.lapusiki.core;
  */
 public enum QuestionType {
 
-    WHO_QUESTION("select ?fullname"),
-    COUNT_QUESTION("select count(varname)");
+    GET_FULLNAME_QUESTION("select ?fullname"),
+    GET_VAR_QUESTION("select ?var"),
+    GET_COUNT_QUESTION("select count(?var)");
 
     private final String description;
 

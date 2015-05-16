@@ -1,6 +1,5 @@
 package net.lapusiki.core.parser.impl;
 
-import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.impl.MapQuestionService;
 import net.lapusiki.core.model.Pair;
@@ -34,8 +33,8 @@ public class QuestionParser implements Parser {
 
         pair.setObject1(new Question(questionType));
 
-        // Если вопрос типа "кто?"
-        if (questionType.equals(QuestionType.WHO_QUESTION)) {
+        // Если вопрос типа GET_FULLNAME_QUESTION
+        if (questionType.equals(QuestionType.GET_FULLNAME_QUESTION)) {
 
             // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
             pair.getObject1().setPredicate(new Predicate(PredicateType.FULL_NAME));
@@ -43,8 +42,9 @@ public class QuestionParser implements Parser {
             // Запоминаем остаточную часть предложения начиная со 2 элемента
             pair.setObject2(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
 
-        // Если вопрос типа "сколько?"
-        } else if (questionType.equals(QuestionType.COUNT_QUESTION)) {
+        // Если вопрос типа GET_COUNT_QUESTION
+        } else if (questionType.equals(QuestionType.GET_VAR_QUESTION) ||
+                questionType.equals(QuestionType.GET_COUNT_QUESTION)) {
 
             // Для того, чтобы определить объект, кол-во которого нужно найти,
             // пытаемся найти подходящий предикат который идет сразу после вопроса.
@@ -53,7 +53,7 @@ public class QuestionParser implements Parser {
             Pair<Predicate, String> predicatePair = parser.parse(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
 
             if (predicatePair.getObject1() == null || predicatePair.getObject1().getPredicateType() == null) {
-                throw new Exception("Не найден предикат для вопросительного слова \"сколько\"");
+                throw new Exception("Не найден предикат для вопросительного слова типа " + questionType.getDescription());
             }
 
             pair.getObject1().setPredicate(predicatePair.getObject1());
