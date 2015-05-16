@@ -37,7 +37,7 @@ public class QuestionParser implements Parser {
         if (questionType.equals(QuestionType.GET_FULLNAME_QUESTION)) {
 
             // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
-            pair.getObject1().setPredicate(new Predicate(PredicateType.FULL_NAME));
+            pair.getObject1().setPredicate(new Predicate(PredicateType.NAME));
 
             // Запоминаем остаточную часть предложения начиная со 2 элемента
             pair.setObject2(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
