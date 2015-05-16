@@ -17,11 +17,14 @@ public class PredicateParser implements Parser {
     @Autowired
     private PredicateService predicateService;
 
+    @Autowired
+    private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
+
     @Override
     public Pair<Predicate, String> parse(String sentence) throws Exception {
 
         Pair<Predicate, String> pair = new Pair<>();
-        String[] parsedSentence = new PrepositionsAndPunctuationParser().parse(sentence);
+        String[] parsedSentence = prepositionsAndPunctuationParser.parse(sentence);
 
 
         // Кол-во слов находящихся в предикате, по умолчанию = 1

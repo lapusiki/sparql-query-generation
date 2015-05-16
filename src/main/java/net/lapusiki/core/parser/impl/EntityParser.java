@@ -1,5 +1,6 @@
 package net.lapusiki.core.parser.impl;
 
+import info.debatty.java.stringsimilarity.StringSimilarityInterface;
 import net.lapusiki.core.model.*;
 import net.lapusiki.core.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ public class EntityParser implements Parser {
     @Autowired
     private PredicateParser predicateParser;
 
+    @Autowired
+    private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
+
     @Override
     public Triple<Entity, String, OperatorType> parse(String sentence) throws Exception {
 
         Triple<Entity, String, OperatorType> triple = new Triple<>();
-        String[] parsedSentence = new PrepositionsAndPunctuationParser().parse(sentence);
+        String[] parsedSentence = prepositionsAndPunctuationParser.parse(sentence);
 
         // Пробуем проверить входяшее предложение на наличие предикатов в самом начале,
         // Это необходимо для предложений типа "знает студент Вася",
