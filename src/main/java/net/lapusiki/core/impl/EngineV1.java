@@ -6,20 +6,25 @@ import net.lapusiki.core.parser.impl.EntityParser;
 import net.lapusiki.core.parser.impl.PredicateParser;
 import net.lapusiki.core.parser.impl.PrepositionsAndPunctuationParser;
 import net.lapusiki.core.parser.impl.QuestionParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.Collections;
 
 /**
  * Created by kiv1n on 13.05.2015
  */
+@Component
 public class EngineV1 implements Engine {
 
-    private static PrepositionsAndPunctuationParser prepositionsAndPunctuationParser
-            = new PrepositionsAndPunctuationParser();
-    private static QuestionParser questionParser = new QuestionParser();
-    private static PredicateParser predicateParser = new PredicateParser();
-    private static EntityParser entityParser = new EntityParser();
+    @Autowired
+    private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
+    @Autowired
+    private QuestionParser questionParser;
+    @Autowired
+    private PredicateParser predicateParser;
+    @Autowired
+    private EntityParser entityParser;
 
     @Override
     public QueryHolder processQuery(String sentence) throws Exception {
@@ -32,17 +37,17 @@ public class EngineV1 implements Engine {
         // Ищем вопросительное слово
         Pair<Question, String> pairAfterQuestionParser =
                 questionParser.parse(wordsToSentence(wordsWithoutPrepositions));
-        queryHolder.setQuestion(pairAfterQuestionParser.getObject1());
+        queryHolder.setQuestion(pairAfterQuestionParser.getFirst());
 
         // Рекурсивно ищем пары <Predicate, Entity>
         // Каждый шаг смотрим на остаточную часть, если она != null,
         // то запускаем следующий шаг
         Pair<Pair<Predicate, Entity>, String> pair =
-                searchPredicateEntityPairs(pairAfterQuestionParser.getObject2());
-        queryHolder.getPredicateEntityPairs().add(pair.getObject1());
-        while (pair.getObject2() != null) {
-            pair = searchPredicateEntityPairs(pair.getObject2());
-            queryHolder.getPredicateEntityPairs().add(pair.getObject1());
+                searchPredicateEntityPairs(pairAfterQuestionParser.getSecond());
+        queryHolder.getPredicateEntityPairs().add(pair.getFirst());
+        while (pair.getSecond() != null) {
+            pair = searchPredicateEntityPairs(pair.getSecond());
+            queryHolder.getPredicateEntityPairs().add(pair.getFirst());
         }
 
         // Удаляем все null в листе PredicateEntityPairs
@@ -57,20 +62,20 @@ public class EngineV1 implements Engine {
         // После этого у нас остается необработанная часть предложения,
         // в котором будет уже другой предикат, но это уже совсем другая история
         Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
-        Triple<Entity, String, OperatorType> entityTriple = entityParser.parse(predicatePair.getObject2());
+        Triple<Entity, String, OperatorType> entityTriple = entityParser.parse(predicatePair.getSecond());
 
         // Если entity для предиката не найден, то возвращаем пару = null
-        if (entityTriple.getObject1() == null) {
-            return new Pair<>(null, entityTriple.getObject2());
+        if (entityTriple.getFirst() == null) {
+            return new Pair<>(null, entityTriple.getSecond());
         }
 
         // Если entity parser обнаружил стоп слово, то добавляем соответсвующий оператор
         // в предикат
-        if (entityTriple.getObject3() != null) {
-            predicatePair.getObject1().setAfterPredicateOperator(entityTriple.getObject3());
+        if (entityTriple.getThird() != null) {
+            predicatePair.getFirst().setAfterPredicateOperator(entityTriple.getThird());
         }
 
-        return new Pair<>(new Pair<>(predicatePair.getObject1(), entityTriple.getObject1()), entityTriple.getObject2());
+        return new Pair<>(new Pair<>(predicatePair.getFirst(), entityTriple.getFirst()), entityTriple.getSecond());
     }
 
     private String wordsToSentence(String[] words) {

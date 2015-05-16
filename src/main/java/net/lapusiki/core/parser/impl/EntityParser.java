@@ -2,13 +2,19 @@ package net.lapusiki.core.parser.impl;
 
 import net.lapusiki.core.model.*;
 import net.lapusiki.core.parser.Parser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 /**
  * Created by kiv1n on 12.05.15.
  */
+@Component
 public class EntityParser implements Parser {
+
+    @Autowired
+    private PredicateParser predicateParser;
 
     @Override
     public Triple<Entity, String, OperatorType> parse(String sentence) throws Exception {
@@ -21,9 +27,8 @@ public class EntityParser implements Parser {
         // где подряд находится два предиката. Если предикат в начале предложения
         // найден, то вовзращаем пустой объект (entity)
         try {
-            PredicateParser predicateParser = new PredicateParser();
             Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
-            if (predicatePair.getObject1() != null && predicatePair.getObject1().getPredicateType() != null) {
+            if (predicatePair.getFirst() != null && predicatePair.getFirst().getPredicateType() != null) {
                 return new Triple<>(null, sentence, null);
             }
         } catch (Exception e) {
@@ -35,23 +40,23 @@ public class EntityParser implements Parser {
         for (int i = 0; i < parsedSentence.length; i++) {
             // Если найдено стоп слова "и"
             if (parsedSentence[i].equals(OperatorType.AND.getDescription())) {
-                triple.setObject1(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
-                triple.setObject2(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
-                triple.setObject3(OperatorType.AND);
+                triple.setFirst(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
+                triple.setSecond(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
+                triple.setThird(OperatorType.AND);
                 break;
             // Если найдено стоп слово "или"
             } else if (parsedSentence[i].equals(OperatorType.OR.getDescription())) {
-                triple.setObject1(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
-                triple.setObject2(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
-                triple.setObject3(OperatorType.OR);
+                triple.setFirst(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
+                triple.setSecond(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
+                triple.setThird(OperatorType.OR);
                 break;
             }
         }
 
         // Если стоп слова не найдеы, то добавляем все слова в объект
         // Получаем объект pair, у которого остаточная часть = null
-        if (triple.getObject1() == null) {
-            triple.setObject1(new Entity(sentence));
+        if (triple.getFirst() == null) {
+            triple.setFirst(new Entity(sentence));
         }
 
         return triple;

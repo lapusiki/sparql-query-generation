@@ -2,6 +2,7 @@ package net.lapusiki.core.impl;
 
 import net.lapusiki.core.QuestionService;
 import net.lapusiki.core.QuestionType;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
  * @author blvp
  * @author kiv1n
  */
+@Component
 public class MapQuestionService implements QuestionService {
 
     private Map<String, QuestionType> questions = new HashMap<String, QuestionType>() {{

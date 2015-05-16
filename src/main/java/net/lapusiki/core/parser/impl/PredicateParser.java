@@ -5,11 +5,17 @@ import net.lapusiki.core.impl.MapPredicateService;
 import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.parser.Parser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by kiv1n on 12.05.15.
  */
+@Component
 public class PredicateParser implements Parser {
+
+    @Autowired
+    private PredicateService predicateService;
 
     @Override
     public Pair<Predicate, String> parse(String sentence) throws Exception {
@@ -17,7 +23,6 @@ public class PredicateParser implements Parser {
         Pair<Predicate, String> pair = new Pair<>();
         String[] parsedSentence = new PrepositionsAndPunctuationParser().parse(sentence);
 
-        PredicateService predicateService = new MapPredicateService();
 
         // Кол-во слов находящихся в предикате, по умолчанию = 1
         // Используется для того, чтобы определить кол-во слов после предиката
@@ -40,7 +45,7 @@ public class PredicateParser implements Parser {
                     "Он или больше 2 слов или отсутсвует в базе знаний", sentence));
         }
 
-        pair.setObject1(predicate);
+        pair.setFirst(predicate);
 
         // Собираем остаточную часть после предиката,
         // Учитывая при этом длину предиката
@@ -48,7 +53,7 @@ public class PredicateParser implements Parser {
         for (int i = predicateLength; i < parsedSentence.length; i++) {
             object2.append(parsedSentence[i]).append(" ");
         }
-        pair.setObject2(object2.toString());
+        pair.setSecond(object2.toString());
 
         return pair;
     }

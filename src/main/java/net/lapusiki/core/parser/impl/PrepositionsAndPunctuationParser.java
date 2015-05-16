@@ -1,12 +1,14 @@
 package net.lapusiki.core.parser.impl;
 
 import net.lapusiki.core.parser.Parser;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 /**
  * Created by blvp on 12.05.15.
  */
+@Component
 public class PrepositionsAndPunctuationParser implements Parser {
 
     private String[] prepositions =

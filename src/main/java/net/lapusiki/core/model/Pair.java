@@ -4,39 +4,39 @@ package net.lapusiki.core.model;
  */
 public class Pair<T,V> {
 
-    private T object1;
+    private T first;
 
-    private V object2;
+    private V second;
 
     public Pair() {
     }
 
-    public Pair(T object1, V object2) {
-        this.object1 = object1;
-        this.object2 = object2;
+    public Pair(T first, V second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public T getObject1() {
-        return object1;
+    public T getFirst() {
+        return first;
     }
 
-    public void setObject1(T object1) {
-        this.object1 = object1;
+    public void setFirst(T first) {
+        this.first = first;
     }
 
-    public V getObject2() {
-        return object2;
+    public V getSecond() {
+        return second;
     }
 
-    public void setObject2(V object2) {
-        this.object2 = object2;
+    public void setSecond(V second) {
+        this.second = second;
     }
 
     @Override
     public String toString() {
         return "Pair{" +
-                "object1=" + object1 +
-                ", object2=" + object2 +
+                "first=" + first +
+                ", second=" + second +
                 '}';
     }
 }

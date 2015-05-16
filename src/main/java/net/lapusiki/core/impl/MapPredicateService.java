@@ -3,6 +3,7 @@ package net.lapusiki.core.impl;
 import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.model.Predicate;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
  * @author blvp
  * @author kiv1n
  */
+@Component
 public class MapPredicateService implements PredicateService {
 
     private Map<String, PredicateType> predicates = new HashMap<String, PredicateType>() {{

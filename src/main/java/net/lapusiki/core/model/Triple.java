@@ -5,51 +5,51 @@ package net.lapusiki.core.model;
  */
 public class Triple<T,V,K> {
 
-    private T object1;
+    private T first;
 
-    private V object2;
+    private V second;
 
-    private K object3;
+    private K third;
 
     public Triple() {
     }
 
-    public Triple(T object1, V object2, K object3) {
-        this.object1 = object1;
-        this.object2 = object2;
-        this.object3 = object3;
+    public Triple(T first, V second, K third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
     }
 
-    public T getObject1() {
-        return object1;
+    public T getFirst() {
+        return first;
     }
 
-    public void setObject1(T object1) {
-        this.object1 = object1;
+    public void setFirst(T first) {
+        this.first = first;
     }
 
-    public V getObject2() {
-        return object2;
+    public V getSecond() {
+        return second;
     }
 
-    public void setObject2(V object2) {
-        this.object2 = object2;
+    public void setSecond(V second) {
+        this.second = second;
     }
 
-    public K getObject3() {
-        return object3;
+    public K getThird() {
+        return third;
     }
 
-    public void setObject3(K object3) {
-        this.object3 = object3;
+    public void setThird(K third) {
+        this.third = third;
     }
 
     @Override
     public String toString() {
         return "Triple{" +
-                "object1=" + object1 +
-                ", object2=" + object2 +
-                ", object3=" + object3 +
+                "first=" + first +
+                ", second=" + second +
+                ", third=" + third +
                 '}';
     }
 }

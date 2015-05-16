@@ -72,16 +72,16 @@ public class QueryBuilder {
         wherePart.append(String.format(" ?person %s ?%s .\n", question.getPredicate().getPredicateType().getValue(), question.getPredicate().hashCode()));
         // Добавляем всё, что относится к filter
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
-            wherePart.append(String.format(" ?person %s ?%s .\n", pair.getObject1().getPredicateType().getValue(), pair.getObject1().hashCode()));
+            wherePart.append(String.format(" ?person %s ?%s .\n", pair.getFirst().getPredicateType().getValue(), pair.getFirst().hashCode()));
         }
 
         // Заполняем часть filters
         StringBuilder filters = new StringBuilder();
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
-            filters.append(String.format("str(?%s) = \"%s\"", pair.getObject1().hashCode(), pair.getObject2().getValue()));
+            filters.append(String.format("str(?%s) = \"%s\"", pair.getFirst().hashCode(), pair.getSecond().getValue()));
             // Опредялем, есть после придиката операторы "и" или "или"
-            if (pair.getObject1().getAfterPredicateOperator() != null) {
-                switch (pair.getObject1().getAfterPredicateOperator()) {
+            if (pair.getFirst().getAfterPredicateOperator() != null) {
+                switch (pair.getFirst().getAfterPredicateOperator()) {
                     case AND:
                         filters.append(" && ");
                         break;
