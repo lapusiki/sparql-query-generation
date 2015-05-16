@@ -16,7 +16,7 @@ import java.util.Map;
 public class MapPredicateService implements PredicateService {
 
     private Map<String, PredicateType> predicates = new HashMap<String, PredicateType>() {{
-        this.put("знает", PredicateType.INTEREST);
+        this.put("знает", PredicateType.PL);
         this.put("любят", PredicateType.INTEREST);
         this.put("любит", PredicateType.INTEREST);
         this.put("умеет писать", PredicateType.INTEREST);

@@ -14,6 +14,7 @@ import java.util.List;
 public class QueryBuilder {
 
     private final String QUERY_TEMPLATE_FANCY = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
+            "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n" +
             "PREFIX : <http://cll.niimm.ksu.ru/swcourse/> \n" +
             "SELECT %s\n" +
             "WHERE {\n" +

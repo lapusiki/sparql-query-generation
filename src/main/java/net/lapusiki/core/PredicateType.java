@@ -8,7 +8,7 @@ public enum PredicateType {
     NAME("foaf:name"),
     INTEREST("foaf:interest"),
     ITIS_LAB(":itisLab"),
-    PL(":programmingLanguage");
+    PL("dbpedia-owl:programmingLanguage");
 
     private final String value;
 
