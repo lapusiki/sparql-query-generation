@@ -1,40 +1,38 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core.similiarity.impl;
 
-import com.google.common.collect.Lists;
 import info.debatty.java.stringsimilarity.StringSimilarityInterface;
-import net.lapusiki.core.PredicateService;
-import net.lapusiki.core.PredicateType;
-import net.lapusiki.core.model.Predicate;
+import net.lapusiki.core.util.Pair;
+import net.lapusiki.core.similiarity.StringSimilarityDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by blvp on 12.05.15.
- *
- * @author blvp
- * @author kiv1n
+ * Created by blvp on 16.05.15.
  */
-@Component
-public class MapPredicateService implements PredicateService {
+@Component("stringSimilarity")
+public class StringSimilarityDelegateImpl implements StringSimilarityDelegate {
 
     @Autowired
-    private StringSimilarityInterface stringSimilarity;
-
-    private Map<String, List<String>> predicates = new HashMap<String, List<String>>() {{
-        this.put(PredicateType.PL.getValue(), Arrays.asList("знает", "языков программирования"));
-        this.put(PredicateType.INTEREST.getValue(), Arrays.asList("любит", "любит", "умеет писать", "смотрел"));
-        this.put(PredicateType.ITIS_LAB.getValue(), Arrays.asList("учится", "посещает лабу"));
-        this.put(PredicateType.NAME.getValue(), Arrays.asList("студентов", "студент"));
-
-    }};
+    @Qualifier("stringSimilarityDelegate")
+    private StringSimilarityInterface delegate;
 
     @Override
-    public Predicate resolvePredicate(String... words) {
+    public double similarity(String s, String s1) {
+        return delegate.similarity(s, s1);
+    }
+
+    @Override
+    public double distance(String s, String s1) {
+        return delegate.similarity(s, s1);
+    }
+
+    @Override
+    public Pair<String, Integer> getBestMatch(Map<String, List<String>> map, String... words) {
+
         StringBuilder builder = new StringBuilder();
         Integer countWords = 0;
 
@@ -44,10 +42,10 @@ public class MapPredicateService implements PredicateService {
             builder.append(word).append(" ");
             Double maxSimilarityBetweenPredicateTypes = Double.MIN_VALUE;
             String maxPredicateType = null;
-            for (Map.Entry<String, List<String>> entry : predicates.entrySet()) {
+            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                 Double maxSimilarityForPredicateValues = Double.MIN_VALUE;
                 for (String stringToCompare : entry.getValue()) {
-                    double similarity = stringSimilarity.similarity(builder.toString(), stringToCompare);
+                    double similarity = delegate.similarity(builder.toString(), stringToCompare);
                     if(similarity > maxSimilarityForPredicateValues) {
                         maxSimilarityForPredicateValues = similarity;
                     }
@@ -70,6 +68,7 @@ public class MapPredicateService implements PredicateService {
         }
         if(totalSim < 0.4){
             return null;
-        } else return new Predicate(PredicateType.fromString(totalMaxPredicate), countWords);
+        } else return new Pair<>(totalMaxPredicate, countWords);
+
     }
 }

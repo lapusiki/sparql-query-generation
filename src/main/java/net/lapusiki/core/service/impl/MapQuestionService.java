@@ -1,7 +1,7 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core.service.impl;
 
-import net.lapusiki.core.QuestionService;
-import net.lapusiki.core.QuestionType;
+import net.lapusiki.core.service.QuestionService;
+import net.lapusiki.core.model.enums.QuestionType;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

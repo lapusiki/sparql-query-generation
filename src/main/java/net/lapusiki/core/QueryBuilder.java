@@ -1,9 +1,8 @@
 package net.lapusiki.core;
 
-import net.lapusiki.core.model.Entity;
-import net.lapusiki.core.model.Pair;
-import net.lapusiki.core.model.Predicate;
-import net.lapusiki.core.model.Question;
+import net.lapusiki.core.model.*;
+import net.lapusiki.core.model.enums.QuestionType;
+import net.lapusiki.core.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,14 @@ import java.util.List;
  */
 public class QueryBuilder {
 
-    private final String QUERY_TEMPLATE_FANCY = "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n" +
-            "PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n" +
-            "PREFIX : <http://cll.niimm.ksu.ru/swcourse/> \n" +
-            "SELECT %s\n" +
-            "WHERE {\n" +
-            "%s" +
-            " FILTER (%s)\n" +
-            "}";
+    private final String QUERY_TEMPLATE_FANCY = new StringBuilder("PREFIX foaf: <http://xmlns.com/foaf/0.1/>").append("\n")
+            .append("PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>").append("\n")
+            .append("PREFIX : <http://cll.niimm.ksu.ru/swcourse/>").append("\n")
+            .append("SELECT %s").append("\n")
+            .append("WHERE {").append("\n")
+            .append("%s")
+            .append("\tFILTER (%s)").append("\n")
+            .append("}").toString();
 
     private String rdfType;
     private Question question;
@@ -69,10 +68,10 @@ public class QueryBuilder {
         // Заполняем часть where
         StringBuilder wherePart = new StringBuilder();
         // Добавляем всё, что относится к select
-        wherePart.append(String.format(" ?person %s ?%s .\n", question.getPredicate().getPredicateType().getValue(), question.getPredicate().hashCode()));
+        wherePart.append(String.format("\t?person %s ?%s .\n", question.getPredicate().getPredicateType().getValue(), question.getPredicate().hashCode()));
         // Добавляем всё, что относится к filter
         for (Pair<Predicate, Entity> pair : predicateEntityPairs) {
-            wherePart.append(String.format(" ?person %s ?%s .\n", pair.getFirst().getPredicateType().getValue(), pair.getFirst().hashCode()));
+            wherePart.append(String.format("\t?person %s ?%s .\n", pair.getFirst().getPredicateType().getValue(), pair.getFirst().hashCode()));
         }
 
         // Заполняем часть filters

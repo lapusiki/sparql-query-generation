@@ -1,4 +1,8 @@
-package net.lapusiki.core.model;
+package net.lapusiki.core.util;
+
+import net.lapusiki.core.model.Entity;
+import net.lapusiki.core.model.Predicate;
+import net.lapusiki.core.model.Question;
 
 import java.util.ArrayList;
 import java.util.List;

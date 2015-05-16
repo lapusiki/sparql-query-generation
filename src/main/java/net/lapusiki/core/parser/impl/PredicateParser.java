@@ -1,8 +1,7 @@
 package net.lapusiki.core.parser.impl;
 
-import net.lapusiki.core.PredicateService;
-import net.lapusiki.core.impl.MapPredicateService;
-import net.lapusiki.core.model.Pair;
+import net.lapusiki.core.service.PredicateService;
+import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +31,21 @@ public class PredicateParser implements Parser {
 
         // Собираем остаточную часть после предиката,
         // Учитывая при этом длину предиката
-        StringBuilder builder = new StringBuilder();
-        for (int i = predicate.getPredicateLength(); i < parsedSentence.length; i++) {
-            builder.append(parsedSentence[i]).append(" ");
-        }
-        pair.setSecond(builder.toString());
+        String second = buildRestSentence(parsedSentence, predicate);
+
+        pair.setSecond(second);
 
         return pair;
+    }
+
+    private String buildRestSentence(String[] parsedSentence, Predicate predicate) {
+        StringBuilder builder = new StringBuilder();
+        Integer start = predicate.getPredicateLength();
+        int end = parsedSentence.length;
+        for (int i = start; i < end; i++) {
+            builder.append(parsedSentence[i]).append(" ");
+        }
+        return builder.toString();
     }
 
 }

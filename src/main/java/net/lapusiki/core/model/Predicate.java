@@ -1,6 +1,7 @@
 package net.lapusiki.core.model;
 
-import net.lapusiki.core.PredicateType;
+import net.lapusiki.core.model.enums.OperatorType;
+import net.lapusiki.core.model.enums.PredicateType;
 
 /**
  */

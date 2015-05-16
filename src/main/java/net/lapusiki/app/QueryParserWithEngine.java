@@ -3,8 +3,7 @@ package net.lapusiki.app;
 import net.lapusiki.config.MainAppConfig;
 import net.lapusiki.core.Engine;
 import net.lapusiki.core.QueryBuilder;
-import net.lapusiki.core.impl.EngineV1;
-import net.lapusiki.core.model.QueryHolder;
+import net.lapusiki.core.util.QueryHolder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

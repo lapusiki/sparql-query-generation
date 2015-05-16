@@ -1,12 +1,16 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core;
 
 import com.google.common.base.Joiner;
 import net.lapusiki.core.Engine;
 import net.lapusiki.core.model.*;
+import net.lapusiki.core.model.enums.OperatorType;
 import net.lapusiki.core.parser.impl.EntityParser;
 import net.lapusiki.core.parser.impl.PredicateParser;
 import net.lapusiki.core.parser.impl.PrepositionsAndPunctuationParser;
 import net.lapusiki.core.parser.impl.QuestionParser;
+import net.lapusiki.core.util.Pair;
+import net.lapusiki.core.util.QueryHolder;
+import net.lapusiki.core.util.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
