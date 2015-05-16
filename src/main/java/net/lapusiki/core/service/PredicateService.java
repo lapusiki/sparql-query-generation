@@ -1,4 +1,4 @@
-package net.lapusiki.core;
+package net.lapusiki.core.service;
 
 import net.lapusiki.core.model.Predicate;
 

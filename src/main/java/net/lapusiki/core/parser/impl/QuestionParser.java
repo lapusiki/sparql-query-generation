@@ -1,13 +1,12 @@
 package net.lapusiki.core.parser.impl;
 
 import com.google.common.base.Joiner;
-import net.lapusiki.core.PredicateType;
-import net.lapusiki.core.impl.MapQuestionService;
-import net.lapusiki.core.model.Pair;
+import net.lapusiki.core.model.enums.PredicateType;
+import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.parser.Parser;
-import net.lapusiki.core.QuestionService;
-import net.lapusiki.core.QuestionType;
+import net.lapusiki.core.service.QuestionService;
+import net.lapusiki.core.model.enums.QuestionType;
 import net.lapusiki.core.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -78,11 +77,4 @@ public class QuestionParser implements Parser {
 
     }
 
-    private String wordsToSentence(String[] words) {
-        StringBuilder builder = new StringBuilder();
-        for (String word : words) {
-            builder.append(word).append(" ");
-        }
-        return builder.toString();
-    }
 }

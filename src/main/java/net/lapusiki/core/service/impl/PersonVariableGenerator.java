@@ -1,7 +1,6 @@
-package net.lapusiki.core.impl;
+package net.lapusiki.core.service.impl;
 
-import net.lapusiki.core.VariableGenerator;
-import org.apache.commons.lang3.RandomStringUtils;
+import net.lapusiki.core.service.VariableGenerator;
 import org.springframework.stereotype.Component;
 
 /**

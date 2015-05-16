@@ -1,4 +1,4 @@
-package net.lapusiki.core.model;
+package net.lapusiki.core.model.enums;
 
 /**
  * Created by kiv1n on 15.05.2015

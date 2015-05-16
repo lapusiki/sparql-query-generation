@@ -1,6 +1,6 @@
 package net.lapusiki.core.model;
 
-import net.lapusiki.core.QuestionType;
+import net.lapusiki.core.model.enums.QuestionType;
 
 /**
  */

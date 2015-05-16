@@ -1,7 +1,7 @@
 package net.lapusiki.core.similiarity.impl;
 
 import info.debatty.java.stringsimilarity.StringSimilarityInterface;
-import net.lapusiki.core.model.Pair;
+import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.similiarity.StringSimilarityDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

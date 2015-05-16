@@ -1,4 +1,4 @@
-package net.lapusiki.core;
+package net.lapusiki.core.model.enums;
 
 /**
  * Created by kiv1n on 15.05.2015
@@ -8,7 +8,8 @@ public enum PredicateType {
     NAME("foaf:name"),
     INTEREST("foaf:interest"),
     ITIS_LAB(":itisLab"),
-    PL("dbpedia-owl:programmingLanguage");
+    PL("dbpedia-owl:programmingLanguage"),
+    MBOX("foaf:mbox <?>");
 
     private final String value;
 

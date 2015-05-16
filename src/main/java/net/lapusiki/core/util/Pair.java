@@ -1,4 +1,4 @@
-package net.lapusiki.core.model;
+package net.lapusiki.core.util;
 
 /**
  */

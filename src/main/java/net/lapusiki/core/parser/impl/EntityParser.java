@@ -1,8 +1,11 @@
 package net.lapusiki.core.parser.impl;
 
-import info.debatty.java.stringsimilarity.StringSimilarityInterface;
+import com.google.common.base.Joiner;
 import net.lapusiki.core.model.*;
+import net.lapusiki.core.model.enums.OperatorType;
 import net.lapusiki.core.parser.Parser;
+import net.lapusiki.core.util.Pair;
+import net.lapusiki.core.util.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +36,8 @@ public class EntityParser implements Parser {
 
         try {
             Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
-            if (predicatePair.getFirst() != null && predicatePair.getFirst().getPredicateType() != null) {
+            boolean isPredicateFound = predicatePair.getFirst() != null && predicatePair.getFirst().getPredicateType() != null;
+            if (isPredicateFound) {
                 return new Triple<>(null, sentence, null);
             }
         } catch (Exception e) {
@@ -44,20 +48,22 @@ public class EntityParser implements Parser {
         // Границей для объекта будут стоп слова типа "и", "или"
         for (int i = 0; i < parsedSentence.length; i++) {
             // Если найдено стоп слова "и"
+            OperatorType operatorType = null;
             if (parsedSentence[i].equals(OperatorType.AND.getDescription())) {
-                triple.setFirst(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
-                triple.setSecond(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
-                triple.setThird(OperatorType.AND);
-                break;
+                operatorType = OperatorType.AND;
             // Если найдено стоп слово "или"
             } else if (parsedSentence[i].equals(OperatorType.OR.getDescription())) {
-                triple.setFirst(new Entity(wordsToSentence(Arrays.copyOfRange(parsedSentence, 0, i))));
-                triple.setSecond(wordsToSentence(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
-                triple.setThird(OperatorType.OR);
+                operatorType = OperatorType.OR;
+            }
+
+            if (operatorType != null) {
+                triple.setFirst(new Entity(Joiner.on(" ").join(Arrays.copyOfRange(parsedSentence, 0, i))));
+                triple.setSecond(Joiner.on(" ").join(Arrays.copyOfRange(parsedSentence, i + 1, parsedSentence.length)));
+                triple.setThird(operatorType);
                 break;
             }
-        }
 
+        }
         // Если стоп слова не найдеы, то добавляем все слова в объект
         // Получаем объект pair, у которого остаточная часть = null
         if (triple.getFirst() == null) {
@@ -65,14 +71,6 @@ public class EntityParser implements Parser {
         }
 
         return triple;
-    }
-
-    private String wordsToSentence(String[] words) {
-        StringBuilder builder = new StringBuilder();
-        for (String word : words) {
-            builder.append(word).append(" ");
-        }
-        return builder.toString();
     }
 
 }

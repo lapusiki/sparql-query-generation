@@ -1,7 +1,7 @@
 package net.lapusiki.core.similiarity;
 
 import info.debatty.java.stringsimilarity.StringSimilarityInterface;
-import net.lapusiki.core.model.Pair;
+import net.lapusiki.core.util.Pair;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,6 @@
-package net.lapusiki.core;
+package net.lapusiki.core.service;
+
+import net.lapusiki.core.model.enums.QuestionType;
 
 /**
  * Created by blvp on 12.05.15.
