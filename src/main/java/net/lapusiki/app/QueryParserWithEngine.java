@@ -6,8 +6,6 @@ import net.lapusiki.core.QueryBuilder;
 import net.lapusiki.core.util.QueryHolder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Arrays;
-
 /**
  * Created by kiv1n on 14.05.2015
  */
@@ -15,11 +13,14 @@ public class QueryParserWithEngine {
 
     private static String[] questions = {
             "Кто знает java?",
+            "Кто пишет на Java?",
             "Сколько студентов любят футбол?",
             "Где учится студент Вася?",
             "Кто посещает лабу Мобильных разработок?",
             "Кто умеет писать на питоне и смотрел фильм Терминатор?",
-            "Сколько языков программирования знает студент Вася?"
+            "Сколько языков программирования знает студент Вася?",
+            "Какой спорт интересует студента Васю?",
+            "Кому нравится книга Гарри Поттер?"
     };
 
 

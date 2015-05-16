@@ -17,9 +17,11 @@ import java.util.Map;
 public class MapQuestionService implements QuestionService {
 
     private Map<String, QuestionType> questions = new HashMap<String, QuestionType>() {{
-        this.put("Кто", QuestionType.GET_FULLNAME_QUESTION);
+        this.put("Кто", QuestionType.GET_NAME_QUESTION);
+        this.put("Кому", QuestionType.GET_NAME_QUESTION);
         this.put("Где", QuestionType.GET_VAR_QUESTION);
         this.put("Сколько", QuestionType.GET_COUNT_QUESTION);
+        this.put("Какой", QuestionType.GET_VAR_QUESTION);
     }};
 
 

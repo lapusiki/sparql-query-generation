@@ -8,7 +8,7 @@ package net.lapusiki.core.model.enums;
  */
 public enum QuestionType {
 
-    GET_FULLNAME_QUESTION("select ?fullname"),
+    GET_NAME_QUESTION("select ?fullname"),
     GET_VAR_QUESTION("select ?var"),
     GET_COUNT_QUESTION("select count(?var)");
 

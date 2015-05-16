@@ -44,9 +44,9 @@ public class QuestionParser implements Parser {
 
         pair.setFirst(new Question(questionType));
 
-        // Если вопрос типа GET_FULLNAME_QUESTION
+        // Если вопрос типа GET_NAME_QUESTION
         switch(questionType){
-            case GET_FULLNAME_QUESTION:
+            case GET_NAME_QUESTION:
                 // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
                 pair.getFirst().setPredicate(new Predicate(PredicateType.NAME));
 

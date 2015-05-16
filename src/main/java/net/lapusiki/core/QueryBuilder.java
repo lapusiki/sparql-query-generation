@@ -57,7 +57,7 @@ public class QueryBuilder {
         // Заполняем select header
         StringBuilder selectHeader = new StringBuilder();
         switch (question.getType()) {
-            case GET_FULLNAME_QUESTION:
+            case GET_NAME_QUESTION:
                 selectHeader.append(String.format("?%s", question.getPredicate().hashCode()));
                 break;
             case GET_COUNT_QUESTION:
