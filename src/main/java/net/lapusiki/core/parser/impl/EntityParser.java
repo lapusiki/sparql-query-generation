@@ -5,6 +5,7 @@ import net.lapusiki.core.model.*;
 import net.lapusiki.core.model.enums.OperatorType;
 import net.lapusiki.core.parser.Parser;
 import net.lapusiki.core.service.EntityService;
+import net.lapusiki.core.service.impl.CSVEntityService;
 import net.lapusiki.core.service.impl.MapEntityService;
 import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.util.Triple;
@@ -26,7 +27,7 @@ public class EntityParser implements Parser {
     private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
 
     @Autowired
-    private MapEntityService entityService;
+    private CSVEntityService entityService;
 
     @Override
     public Triple<Entity, String, OperatorType> parse(String sentence) throws Exception {
