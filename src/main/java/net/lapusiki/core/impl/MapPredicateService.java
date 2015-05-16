@@ -17,10 +17,6 @@ import java.util.Map;
  */
 public class MapPredicateService implements PredicateService {
 
-    public final List<String> names = new ArrayList<String>() {{
-        add("Вася");
-    }};
-
     private Map<String, PredicateType> predicates = new HashMap<String, PredicateType>() {{
         this.put("знает", PredicateType.INTEREST);
         this.put("любят", PredicateType.INTEREST);
@@ -29,12 +25,8 @@ public class MapPredicateService implements PredicateService {
         this.put("смотрел", PredicateType.INTEREST);
         this.put("студентов", PredicateType.FULL_NAME);
         this.put("учится", PredicateType.ITIS_LAB);
-        this.put("Вася", PredicateType.FULL_NAME);
-
-        // Добавляем имена как предикат типа FULL_NAME
-        for (String name : names) {
-            this.put(name, PredicateType.FULL_NAME);
-        }
+        this.put("языков программирования", PredicateType.PL);
+        this.put("студент", PredicateType.FULL_NAME);
     }};
 
     @Override

@@ -7,6 +7,9 @@ import net.lapusiki.core.parser.impl.PredicateParser;
 import net.lapusiki.core.parser.impl.PrepositionsAndPunctuationParser;
 import net.lapusiki.core.parser.impl.QuestionParser;
 
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * Created by kiv1n on 13.05.2015
  */
@@ -42,6 +45,9 @@ public class EngineV1 implements Engine {
             queryHolder.getPredicateEntityPairs().add(pair.getObject1());
         }
 
+        // Удаляем все null в листе PredicateEntityPairs
+        queryHolder.getPredicateEntityPairs().removeAll(Collections.singleton(null));
+
         return queryHolder;
     }
 
@@ -52,6 +58,11 @@ public class EngineV1 implements Engine {
         // в котором будет уже другой предикат, но это уже совсем другая история
         Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
         Triple<Entity, String, OperatorType> entityTriple = entityParser.parse(predicatePair.getObject2());
+
+        // Если entity для предиката не найден, то возвращаем пару = null
+        if (entityTriple.getObject1() == null) {
+            return new Pair<>(null, entityTriple.getObject2());
+        }
 
         // Если entity parser обнаружил стоп слово, то добавляем соответсвующий оператор
         // в предикат

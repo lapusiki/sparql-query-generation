@@ -1,28 +1,34 @@
 package net.lapusiki.core.parser.impl;
 
-import net.lapusiki.core.QuestionType;
 import net.lapusiki.core.model.*;
 import net.lapusiki.core.parser.Parser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by kiv1n on 12.05.15.
  */
 public class EntityParser implements Parser {
 
-//    public List<String> stopWords = new ArrayList<String>() {{
-//        add("и");
-//        add("или");
-//    }};
-
     @Override
     public Triple<Entity, String, OperatorType> parse(String sentence) throws Exception {
 
         Triple<Entity, String, OperatorType> triple = new Triple<>();
         String[] parsedSentence = new PrepositionsAndPunctuationParser().parse(sentence);
+
+        // Пробуем проверить входяшее предложение на наличие предикатов в самом начале,
+        // Это необходимо для предложений типа "знает студент Вася",
+        // где подряд находится два предиката. Если предикат в начале предложения
+        // найден, то вовзращаем пустой объект (entity)
+        try {
+            PredicateParser predicateParser = new PredicateParser();
+            Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
+            if (predicatePair.getObject1() != null && predicatePair.getObject1().getPredicateType() != null) {
+                return new Triple<>(null, sentence, null);
+            }
+        } catch (Exception e) {
+        }
+
 
         // Выделяем слова, которые относятся к объекту (entity)
         // Границей для объекта будут стоп слова типа "и", "или"

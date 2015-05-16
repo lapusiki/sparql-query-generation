@@ -25,14 +25,6 @@ public class PredicateParser implements Parser {
 
         Predicate predicate = predicateService.resolvePredicate(parsedSentence[0]);
 
-        // Если входящее предложение начинается с имени, например "Вася", то предикат
-        // будет "foaf:full_name" и длина предиката будет = 0.
-        // Такая длина нужна для того, чтобы имя "Вася" пошло в остаточную часть,
-        // где оно станет объектом
-        if (new MapPredicateService().names.contains(parsedSentence[0])) {
-            predicateLength = 0;
-        }
-
         // Если предикат не найден, то пробуем найти предикат по двум первым словам
         if (parsedSentence.length > 1 && (predicate == null || predicate.getPredicateType() == null)) {
             predicate = predicateService.resolvePredicate(parsedSentence[0], parsedSentence[1]);
