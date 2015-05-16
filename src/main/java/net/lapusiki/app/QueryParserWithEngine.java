@@ -28,19 +28,20 @@ public class QueryParserWithEngine {
 
         Engine engine = context.getBean(Engine.class);
 
-        String query = questions[5];
+        for (String question : questions) {
 
-        System.out.println("Query: " + query);
+            System.out.println("Query: " + question);
 
-        QueryHolder queryHolder = engine.processQuery(query);
+            QueryHolder queryHolder = engine.processQuery(question);
 
-        String sparqlQuery = new QueryBuilder()
-                .question(queryHolder.getQuestion())
-                .predicateEntityPair(queryHolder.getPredicateEntityPairs())
-                .build();
+            String sparqlQuery = new QueryBuilder()
+                    .question(queryHolder.getQuestion())
+                    .predicateEntityPair(queryHolder.getPredicateEntityPairs())
+                    .build();
 
-        System.out.println(sparqlQuery);
+            System.out.println(sparqlQuery);
 
+        }
     }
 
 }

@@ -25,18 +25,51 @@ public class MapPredicateService implements PredicateService {
     @Autowired
     private StringSimilarityInterface stringSimilarity;
 
-    private Map<String, List<String>> predicates = new HashMap<String, List<String>>(){{
-       this.put(PredicateType.PL.getValue(), Arrays.asList("знает", "языков программирования"));
-       this.put(PredicateType.INTEREST.getValue(), Arrays.asList("любит", "любит", "умеет писать", "смотрел"));
-       this.put(PredicateType.ITIS_LAB.getValue(), Arrays.asList("учится", "посещает лабу"));
-       this.put(PredicateType.NAME.getValue(), Arrays.asList("студентов", "студент"));
+    private Map<PredicateType, List<String>> predicates = new HashMap<PredicateType, List<String>>() {{
+        this.put(PredicateType.PL, Arrays.asList("знает", "языков программирования"));
+        this.put(PredicateType.INTEREST, Arrays.asList("любит", "любит", "умеет писать", "смотрел"));
+        this.put(PredicateType.ITIS_LAB, Arrays.asList("учится", "посещает лабу"));
+        this.put(PredicateType.NAME, Arrays.asList("студентов", "студент"));
 
     }};
 
     @Override
     public Predicate resolvePredicate(String... words) {
-        //TODO: remove stub
-        return null;
-    }
+        StringBuilder builder = new StringBuilder();
+        Integer countWords = 0;
 
+        Double totalSim = Double.MIN_VALUE;
+        PredicateType totalMaxPredicate = null;
+        for (String word : words) {
+            builder.append(word).append(" ");
+            Double maxSimilarityBetweenPredicateTypes = Double.MIN_VALUE;
+            PredicateType maxPredicateType = null;
+            for (Map.Entry<PredicateType, List<String>> entry : predicates.entrySet()) {
+                Double maxSimilarityForPredicateValues = Double.MIN_VALUE;
+                for (String stringToCompare : entry.getValue()) {
+                    double similarity = stringSimilarity.similarity(builder.toString(), stringToCompare);
+                    if(similarity > maxSimilarityForPredicateValues) {
+                        maxSimilarityForPredicateValues = similarity;
+                    }
+                }
+                if(maxSimilarityBetweenPredicateTypes < maxSimilarityForPredicateValues){
+                    maxSimilarityBetweenPredicateTypes = maxSimilarityForPredicateValues;
+                    maxPredicateType = entry.getKey();
+                }
+            }
+
+            boolean foundBetterSolution = totalSim < maxSimilarityBetweenPredicateTypes;
+
+            if(foundBetterSolution){
+                totalSim = maxSimilarityBetweenPredicateTypes;
+                totalMaxPredicate = maxPredicateType;
+                countWords++;
+            } else {
+                break;
+            }
+        }
+        if(totalSim < 0.4){
+            return null;
+        } else return new Predicate(totalMaxPredicate, countWords);
+    }
 }

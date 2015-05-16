@@ -8,13 +8,19 @@ public class Predicate {
 
     private PredicateType predicateType;
 
+    private Integer predicateLength;
+
     private OperatorType afterPredicateOperator;
 
     public Predicate() {
     }
 
-    public Predicate(PredicateType predicateType) {
+    public Predicate(PredicateType predicateType){
+        this(predicateType, 0);
+    }
+    public Predicate(PredicateType predicateType, Integer predicateLength) {
         this.predicateType = predicateType;
+        this.predicateLength = predicateLength;
     }
 
     public Predicate(PredicateType predicateType, OperatorType afterPredicateOperator) {
@@ -36,6 +42,14 @@ public class Predicate {
 
     public void setAfterPredicateOperator(OperatorType afterPredicateOperator) {
         this.afterPredicateOperator = afterPredicateOperator;
+    }
+
+    public Integer getPredicateLength() {
+        return predicateLength;
+    }
+
+    public void setPredicateLength(Integer predicateLength) {
+        this.predicateLength = predicateLength;
     }
 
     @Override

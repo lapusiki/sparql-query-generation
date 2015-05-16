@@ -20,4 +20,10 @@ public enum PredicateType {
         return value;
     }
 
+    public static PredicateType fromString(String key) {
+        for (PredicateType predicateType : PredicateType.values()) {
+            if(predicateType.getValue().equals(key)) return predicateType;
+        }
+        return null;
+    }
 }

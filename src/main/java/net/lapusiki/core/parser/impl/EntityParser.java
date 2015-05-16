@@ -30,6 +30,7 @@ public class EntityParser implements Parser {
         // Это необходимо для предложений типа "знает студент Вася",
         // где подряд находится два предиката. Если предикат в начале предложения
         // найден, то вовзращаем пустой объект (entity)
+
         try {
             Pair<Predicate, String> predicatePair = predicateParser.parse(sentence);
             if (predicatePair.getFirst() != null && predicatePair.getFirst().getPredicateType() != null) {

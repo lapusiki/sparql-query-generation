@@ -1,5 +1,6 @@
 package net.lapusiki.core.parser.impl;
 
+import com.google.common.base.Joiner;
 import net.lapusiki.core.PredicateType;
 import net.lapusiki.core.impl.MapQuestionService;
 import net.lapusiki.core.model.Pair;
@@ -27,10 +28,13 @@ public class QuestionParser implements Parser {
     @Autowired
     private PredicateParser predicateParser;
 
+    @Autowired
+    private PrepositionsAndPunctuationParser prepositionsAndPunctuationParser;
+
     public Pair<Question, String> parse(String sentence) throws Exception {
 
         Pair<Question, String> pair = new Pair<>();
-        String[] parsedQuestion = new PrepositionsAndPunctuationParser().parse(sentence);
+        String[] parsedQuestion = prepositionsAndPunctuationParser.parse(sentence);
 
         QuestionType questionType = questionService.resolveQuestion(parsedQuestion[0]);
 
@@ -42,35 +46,34 @@ public class QuestionParser implements Parser {
         pair.setFirst(new Question(questionType));
 
         // Если вопрос типа GET_FULLNAME_QUESTION
-        if (questionType.equals(QuestionType.GET_FULLNAME_QUESTION)) {
+        switch(questionType){
+            case GET_FULLNAME_QUESTION:
+                // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
+                pair.getFirst().setPredicate(new Predicate(PredicateType.NAME));
 
-            // Добавляем в question предикат для поиска людей по имени (foaf:full_name)
-            pair.getFirst().setPredicate(new Predicate(PredicateType.NAME));
+                // Запоминаем остаточную часть предложения начиная со 2 элемента
+                String restString = Joiner.on(" ").join(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length));
+                pair.setSecond(restString);
+                break;
+            case GET_VAR_QUESTION:
+            case GET_COUNT_QUESTION:
 
-            // Запоминаем остаточную часть предложения начиная со 2 элемента
-            pair.setSecond(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
+                // Для того, чтобы определить объект, кол-во которого нужно найти,
+                // пытаемся найти подходящий предикат который идет сразу после вопроса.
+                // Далее сохраним найденный предикат в объекте вопроса
 
-        // Если вопрос типа GET_COUNT_QUESTION
-        } else if (questionType.equals(QuestionType.GET_VAR_QUESTION) ||
-                questionType.equals(QuestionType.GET_COUNT_QUESTION)) {
+                String restSentence = Joiner.on(" ").join(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length));
+                Pair<Predicate, String> predicatePair = predicateParser.parse(restSentence);
 
-            // Для того, чтобы определить объект, кол-во которого нужно найти,
-            // пытаемся найти подходящий предикат который идет сразу после вопроса.
-            // Далее сохраним найденный предикат в объекте вопроса
+                if (predicatePair.getFirst() == null || predicatePair.getFirst().getPredicateType() == null) {
+                    throw new Exception("Не найден предикат для вопросительного слова типа " + questionType.getDescription());
+                }
 
-            Pair<Predicate, String> predicatePair = predicateParser.parse(wordsToSentence(Arrays.copyOfRange(parsedQuestion, 1, parsedQuestion.length)));
-
-            if (predicatePair.getFirst() == null || predicatePair.getFirst().getPredicateType() == null) {
-                throw new Exception("Не найден предикат для вопросительного слова типа " + questionType.getDescription());
-            }
-
-            pair.getFirst().setPredicate(predicatePair.getFirst());
-            pair.setSecond(predicatePair.getSecond());
-
-        } else {
-            throw new Exception("Пока не умею обрабатывать такие вопросные слова");
+                pair.getFirst().setPredicate(predicatePair.getFirst());
+                pair.setSecond(predicatePair.getSecond());
+                break;
+            default: throw new IllegalArgumentException("неизвестный тип запроса");
         }
-
         return pair;
 
     }

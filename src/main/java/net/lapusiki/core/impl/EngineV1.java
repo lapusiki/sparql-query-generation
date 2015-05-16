@@ -1,5 +1,6 @@
 package net.lapusiki.core.impl;
 
+import com.google.common.base.Joiner;
 import net.lapusiki.core.Engine;
 import net.lapusiki.core.model.*;
 import net.lapusiki.core.parser.impl.EntityParser;
@@ -36,7 +37,7 @@ public class EngineV1 implements Engine {
 
         // Ищем вопросительное слово
         Pair<Question, String> pairAfterQuestionParser =
-                questionParser.parse(wordsToSentence(wordsWithoutPrepositions));
+                questionParser.parse(Joiner.on(" ").join(wordsWithoutPrepositions));
         queryHolder.setQuestion(pairAfterQuestionParser.getFirst());
 
         // Рекурсивно ищем пары <Predicate, Entity>
