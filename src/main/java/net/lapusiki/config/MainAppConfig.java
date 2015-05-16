@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("net.lapusiki.core")
 public class MainAppConfig {
 
-    @Bean
+    @Bean(name = "stringSimilarityDelegate")
     public StringSimilarityInterface damerau(){
         return new Damerau();
     }

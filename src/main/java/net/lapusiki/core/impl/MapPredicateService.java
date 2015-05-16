@@ -4,8 +4,11 @@ import com.google.common.collect.Lists;
 import info.debatty.java.stringsimilarity.StringSimilarityInterface;
 import net.lapusiki.core.PredicateService;
 import net.lapusiki.core.PredicateType;
+import net.lapusiki.core.model.Pair;
 import net.lapusiki.core.model.Predicate;
+import net.lapusiki.core.similiarity.StringSimilarityDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -23,7 +26,8 @@ import java.util.Map;
 public class MapPredicateService implements PredicateService {
 
     @Autowired
-    private StringSimilarityInterface stringSimilarity;
+    @Qualifier("stringSimilarity")
+    private StringSimilarityDelegate stringSimilarity;
 
     private Map<String, List<String>> predicates = new HashMap<String, List<String>>() {{
         this.put(PredicateType.PL.getValue(), Arrays.asList("знает", "языков программирования"));
@@ -35,41 +39,7 @@ public class MapPredicateService implements PredicateService {
 
     @Override
     public Predicate resolvePredicate(String... words) {
-        StringBuilder builder = new StringBuilder();
-        Integer countWords = 0;
-
-        Double totalSim = Double.MIN_VALUE;
-        String totalMaxPredicate = null;
-        for (String word : words) {
-            builder.append(word).append(" ");
-            Double maxSimilarityBetweenPredicateTypes = Double.MIN_VALUE;
-            String maxPredicateType = null;
-            for (Map.Entry<String, List<String>> entry : predicates.entrySet()) {
-                Double maxSimilarityForPredicateValues = Double.MIN_VALUE;
-                for (String stringToCompare : entry.getValue()) {
-                    double similarity = stringSimilarity.similarity(builder.toString(), stringToCompare);
-                    if(similarity > maxSimilarityForPredicateValues) {
-                        maxSimilarityForPredicateValues = similarity;
-                    }
-                }
-                if(maxSimilarityBetweenPredicateTypes < maxSimilarityForPredicateValues){
-                    maxSimilarityBetweenPredicateTypes = maxSimilarityForPredicateValues;
-                    maxPredicateType = entry.getKey();
-                }
-            }
-
-            boolean foundBetterSolution = totalSim < maxSimilarityBetweenPredicateTypes;
-
-            if(foundBetterSolution){
-                totalSim = maxSimilarityBetweenPredicateTypes;
-                totalMaxPredicate = maxPredicateType;
-                countWords++;
-            } else {
-                break;
-            }
-        }
-        if(totalSim < 0.4){
-            return null;
-        } else return new Predicate(PredicateType.fromString(totalMaxPredicate), countWords);
+        Pair<String, Integer> bestMatch = stringSimilarity.getBestMatch(predicates, words);
+        return (bestMatch != null? new Predicate(PredicateType.fromString(bestMatch.getFirst()), bestMatch.getSecond()): null);
     }
 }
