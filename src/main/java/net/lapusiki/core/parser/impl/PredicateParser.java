@@ -1,11 +1,14 @@
 package net.lapusiki.core.parser.impl;
 
+import com.google.common.base.Joiner;
 import net.lapusiki.core.service.PredicateService;
 import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.model.Predicate;
 import net.lapusiki.core.parser.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * Created by kiv1n on 12.05.15.
@@ -39,13 +42,10 @@ public class PredicateParser implements Parser {
     }
 
     private String buildRestSentence(String[] parsedSentence, Predicate predicate) {
-        StringBuilder builder = new StringBuilder();
         Integer start = predicate.getPredicateLength();
         int end = parsedSentence.length;
-        for (int i = start; i < end; i++) {
-            builder.append(parsedSentence[i]).append(" ");
-        }
-        return builder.toString();
+        String restSentence = Joiner.on(" ").join(Arrays.copyOfRange(parsedSentence, start, end));
+        return restSentence;
     }
 
 }

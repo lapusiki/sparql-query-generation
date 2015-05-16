@@ -83,12 +83,4 @@ public class EngineV1 implements Engine {
         return new Pair<>(new Pair<>(predicatePair.getFirst(), entityTriple.getFirst()), entityTriple.getSecond());
     }
 
-    private String wordsToSentence(String[] words) {
-        StringBuilder builder = new StringBuilder();
-        for (String word : words) {
-            builder.append(word).append(" ");
-        }
-        return builder.toString();
-    }
-
 }
