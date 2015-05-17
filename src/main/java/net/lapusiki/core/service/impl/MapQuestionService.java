@@ -22,6 +22,8 @@ public class MapQuestionService implements QuestionService {
         this.put("Где", QuestionType.GET_VAR_QUESTION);
         this.put("Сколько", QuestionType.GET_COUNT_QUESTION);
         this.put("Какой", QuestionType.GET_VAR_QUESTION);
+        this.put("Какая", QuestionType.GET_VAR_QUESTION);
+        this.put("Какие", QuestionType.GET_VAR_QUESTION);
     }};
 
 

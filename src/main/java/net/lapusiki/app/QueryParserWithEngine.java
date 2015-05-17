@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class QueryParserWithEngine {
 
-    private static String[] questions = {
+    private static String[] ivanovQuestions = {
             "Кто знает java?",
             "Кто пишет на Java?",
             "Сколько студентов любят футбол?",
@@ -20,9 +20,16 @@ public class QueryParserWithEngine {
             "Кто умеет писать на питоне и смотрел фильм Терминатор?",
             "Сколько языков программирования знает Вася?",
             "Какой спорт интересует Васю?",
-            "Кому нравится книга Гарри Поттер?"
+            "Кому нравится книга Гарри Поттер?",
     };
 
+    private static String[] customQuestions = {
+            "Какая почта у Ирины Сваловой?",
+            "Какие интересы у Ирины Сваловой?",
+            "Сколько людей знает Джаву?",
+            "Кто любит слушать Битлз и кататься на лыжах?",
+            "Кто стажировался в лаборатории Fujitsu или стажировался в лаборатории Android?",
+    };
 
     public static void main(String[] args) throws Exception {
 
@@ -30,7 +37,7 @@ public class QueryParserWithEngine {
 
         Engine engine = context.getBean(Engine.class);
 
-        for (String question : questions) {
+        for (String question : ivanovQuestions) {
 
             System.out.println("Query: " + question);
 
