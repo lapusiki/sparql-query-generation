@@ -8,6 +8,7 @@ import net.lapusiki.core.parser.impl.EntityParser;
 import net.lapusiki.core.parser.impl.PredicateParser;
 import net.lapusiki.core.parser.impl.PrepositionsAndPunctuationParser;
 import net.lapusiki.core.parser.impl.QuestionParser;
+import net.lapusiki.core.service.NameService;
 import net.lapusiki.core.util.Pair;
 import net.lapusiki.core.util.QueryHolder;
 import net.lapusiki.core.util.Triple;
@@ -30,6 +31,8 @@ public class EngineV1 implements Engine {
     private PredicateParser predicateParser;
     @Autowired
     private EntityParser entityParser;
+    @Autowired
+    private NameService nameService;
 
     @Override
     public QueryHolder processQuery(String sentence) throws Exception {
@@ -37,11 +40,14 @@ public class EngineV1 implements Engine {
         QueryHolder queryHolder = new QueryHolder();
 
         // Избавляемся от предлогов и знаков пунктуации
-        String[] wordsWithoutPrepositions = prepositionsAndPunctuationParser.parse(sentence);
+        String[] words = prepositionsAndPunctuationParser.parse(sentence);
+
+        // Нормализуем предикаты возле имен
+        words = nameService.normalizePredicatesNearNames(words);
 
         // Ищем вопросительное слово
         Pair<Question, String> pairAfterQuestionParser =
-                questionParser.parse(Joiner.on(" ").join(wordsWithoutPrepositions));
+                questionParser.parse(Joiner.on(" ").join(words));
         queryHolder.setQuestion(pairAfterQuestionParser.getFirst());
 
         // Рекурсивно ищем пары <Predicate, Entity>

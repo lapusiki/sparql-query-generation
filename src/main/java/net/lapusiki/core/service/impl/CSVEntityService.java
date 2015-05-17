@@ -32,10 +32,20 @@ public class CSVEntityService implements EntityService {
 
     @PostConstruct
     public void initEntities() throws IOException {
-        // Считываем файл, который содержит entities
+
         String absolutePath = new File("").getAbsolutePath();
-        CSVReader reader = new CSVReader(new FileReader(absolutePath + "/src/main/resources/entity_url_label.csv"), ',');
-        List<String[]> strings = reader.readAll();
+        List<String[]> strings;
+        CSVReader reader;
+
+        // Считываем файл, который содержит entities
+        reader = new CSVReader(new FileReader(absolutePath + "/src/main/resources/entity_url_label.csv"), ',');
+        strings = reader.readAll();
+        for (String[] line : strings) {
+            entities.put(line[0], Arrays.asList(Arrays.copyOfRange(line, 1, line.length)));
+        }
+        // Считываем файл, который содержит имена
+        reader = new CSVReader(new FileReader(absolutePath + "/src/main/resources/names.csv"), ',');
+        strings = reader.readAll();
         for (String[] line : strings) {
             entities.put(line[0], Arrays.asList(Arrays.copyOfRange(line, 1, line.length)));
         }
