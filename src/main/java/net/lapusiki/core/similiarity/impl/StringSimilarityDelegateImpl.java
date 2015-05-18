@@ -27,7 +27,7 @@ public class StringSimilarityDelegateImpl implements StringSimilarityDelegate {
 
     @Override
     public double distance(String s, String s1) {
-        return delegate.similarity(s, s1);
+        return delegate.distance(s, s1);
     }
 
     @Override
